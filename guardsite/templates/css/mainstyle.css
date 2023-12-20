@@ -1,0 +1,12 @@
+#notice{
+    height : 70px;
+}
+
+#corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+  }
