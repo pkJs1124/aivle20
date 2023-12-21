@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy and Terms of Service</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Additional styles if needed */
+
+        #corner {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            right: 0;
+            bottom: 0;
+            cursor: nwse-resize;
+        }
+
+        /* Modal styles */
+        .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+        z-index: 1000;
+        width: 100%; /* 전체 너비 */
+        max-width: 400px; /* 최대 너비 설정 */
+        max-height: 80%;
+        overflow-y: auto;
+font-size: 10px;
+    }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <header class="flex justify-between items-center p-4 border-b border-gray-200">
+        <div class="text-lg font-semibold">Privacy Policy and Terms of Service</div>
+    </header>
+
+    <main class="flex flex-col items-center py-10">
+        <h1 class="text-3xl font-bold mb-8">이용약관</h1>
+        <form class="w-full max-w-lg" id="termsForm" action="your_next_page.html" method="post">
+            <!-- 링크 추가 해야됨! -->
+            <div class="flex flex-col mb-4">
+                <h4 class="text-xl font-bold mb-0">
+                    <span>개인정보 처리에 대한 이용약관</span>
+                </h4>
+                <a href="#" onclick="showModal('terms')" class="text-gray-500 text-right">자세히 보기</a>
+
+                <div class="flex items-center justify-end mb-2 space-x-2">
+                    <label for="agree_personal" class="text-right">
+                        <input type="radio" id="agree_personal" name="agree_personal" value="yes" required> 동의합니다
+                    </label>
+                    <label for="disagree_personal" class="text-right">
+                        <input type="radio" id="disagree_personal" name="agree_personal" value="no" required> 동의하지 않습니다
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex flex-col mb-4">
+                <h4 class="text-xl font-bold mb-0">
+                    <span>사이트 이용에 대한 이용약관</span>
+                </h4>
+                <a href="#" onclick="showModal('siteTerms')" class="text-gray-500 text-right">자세히 보기</a>
+
+                <div class="flex items-center justify-end mb-2 space-x-2">
+                    <label for="agree_site" class="text-right">
+                        <input type="radio" id="agree_site" name="agree_site" value="yes" required> 동의합니다
+                    </label>
+                    <label for="disagree_site" class="text-right">
+                        <input type="radio" id="disagree_site" name="agree_site" value="no" required> 동의하지 않습니다
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-700" disabled>Submit</button>
+        </form>
+    </main>
+
+    <div id="termsModal" class="modal">
+        <button onclick="hideModal('terms')" class="float-right text-lg cursor-pointer">&times;</button>
+        <div class="text-base">
+            이곳은 개인정보 처리에 대한 이용약관 영역입니다. 이용약관의 내용을 여기에 추가하세요.
+
+	상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!!
+        </div>
+    </div>
+
+    <div id="siteTermsModal" class="modal">
+        <button onclick="hideModal('siteTerms')" class="float-right text-lg cursor-pointer">&times;</button>
+        <div class="text-lg">
+            이곳은 사이트 이용에 대한 이용약관 영역입니다. 이용약관의 내용을 여기에 추가하세요.
+
+	상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!! 상혁님 여기에 작성해주세요!!!
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="overlay"></div>
+
+    <footer class="text-center p-4 border-t border-gray-200">
+        <p>&copy; 2022 Company Name. All rights reserved.</p>
+        <div class="flex justify-center space-x-4 mt-2">
+            <a href="#" class="hover:text-gray-500">Privacy Policy</a>
+            <a href="#" class="hover:text-gray-500">Terms of Service</a>
+        </div>
+    </footer>
+
+    <script>
+
+        function showModal(modalId) {
+            var modal = document.getElementById(modalId + 'Modal');
+            var overlay = document.getElementById('modalOverlay');
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function hideModal(modalId) {
+            var modal = document.getElementById(modalId + 'Modal');
+            var overlay = document.getElementById('modalOverlay');
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        window.addEventListener('click', function (event) {
+            var modal = document.getElementById('termsModal');
+            var siteTermsModal = document.getElementById('siteTermsModal');
+            var overlay = document.getElementById('modalOverlay');
+
+            if (event.target === overlay) {
+                hideModal('terms');
+                hideModal('siteTerms');
+            }
+        });
+
+        var agreePersonal = document.querySelector('input[name="agree_personal"]');
+        var agreeSite = document.querySelector('input[name="agree_site"]');
+        var submitButton = document.querySelector('button[type="submit"]');
+
+        agreePersonal.addEventListener('change', updateSubmitButton);
+        agreeSite.addEventListener('change', updateSubmitButton);
+
+        function updateSubmitButton() {
+            if ((agreePersonal.checked || agreePersonal.checked) && (agreeSite.checked || agreeSite.checked)) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+    </script>
+
+    <div id="corner"></div>
+    <script>
+        const corner = document.getElementById('corner');
+        function resizeWindow(e) {
+            const size = {
+                width: Math.max(50, Math.floor(e.clientX + 5)),
+                height: Math.max(50, Math.floor(e.clientY + 5))
+            };
+            parent.postMessage({ pluginMessage: { type: 'resize', size: size } }, '*');
+        }
+        corner.onpointerdown = (e) => {
+            corner.onpointermove = resizeWindow;
+            corner.setPointerCapture(e.pointerId);
+        };
+        corner.onpointerup = (e) => {
+            corner.onpointermove = null;
+            corner.releasePointerCapture(e.pointerId);
+        };
+    </script>
+</body>
+</html>
