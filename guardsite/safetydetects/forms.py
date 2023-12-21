@@ -6,7 +6,7 @@ class ImageUploadForm(forms.ModelForm):
     class Meta:
         model=UploadedImage
         fields =['image']
-
+ 
 
 
 
