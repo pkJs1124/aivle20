@@ -20,7 +20,6 @@
                     {% if not user.is_authenticated %}
                         <a href="{% url 'login' %}" class="text-gray-700 text-sm mx-2">로그인</a>
                     {% else %}
-                        <button id="darkModeToggle">다크 모드 토글</button>
                         <a href="#" class="text-gray-700 text-sm mx-2">Home</a>
                         <a href="#" class="text-gray-700 text-sm mx-2">{{user}}님</a>
                         <a href="{% url 'logout' %}" class="text-gray-700 text-sm mx-2">로그아웃</a>
@@ -112,15 +111,6 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind-dark.min.js"></script>
-    <script>
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-        });
-    </script>
 </body>
 <div id="corner"></div>
 <script>
