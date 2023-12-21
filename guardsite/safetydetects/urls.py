@@ -7,4 +7,4 @@ urlpatterns = [
     path('', new),
     path('upload/',upload_image,name='upload_image') 
     
-]
+] 
