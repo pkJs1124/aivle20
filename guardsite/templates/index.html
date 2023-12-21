@@ -4,17 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Industrial Safety Management Program</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {},
-            },
-        }
-    </script>
-    <link rel="stylesheet" href="css/mainstyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.css">
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body class="dark:bg-gray-800 dark:text-white bg-gray-100 font-sans leading-normal tracking-normal">
 
     <nav class="bg-white shadow">
         <div class="container mx-auto px-6 py-3">
@@ -28,6 +20,7 @@
                     {% if not user.is_authenticated %}
                         <a href="{% url 'login' %}" class="text-gray-700 text-sm mx-2">로그인</a>
                     {% else %}
+                        <button id="darkModeToggle">다크 모드 토글</button>
                         <a href="#" class="text-gray-700 text-sm mx-2">Home</a>
                         <a href="#" class="text-gray-700 text-sm mx-2">{{user}}님</a>
                         <a href="{% url 'logout' %}" class="text-gray-700 text-sm mx-2">로그아웃</a>
@@ -36,9 +29,68 @@
             </div>
         </div>
     </nav>
-
+    
     <div class="container mx-auto mt-8">
-        <div class="bg-white p-8 rounded-md shadow-md">
+        <div class="bg-white p-8 rounded-md shadow-md mb-4">
+            <div class='mb-4'>
+                <form method='Post'>
+                    {% csrf_token %}
+                    
+                    <div class="mt-6">
+                        <h2 class="text-xl font-bold text-gray-700 mb-2">위험구역 사진 업로드</h2>
+                        <div class="mt-2">
+                            <input type="file" class="block w-full text-sm text-gray-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-gray-200 file:text-gray-700
+                                hover:file:bg-gray-300"/>
+                            <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                제출
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-4 mb-4">
+                <div class="bg-gray-200 p-4 rounded-md">
+                    <h2 class="font-bold text-gray-700 mb-2">오늘의 위험요소</h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="bg-white p-4 rounded-md">
+                            <h3 class="font-bold text-gray-700">작업 구역 1</h3>
+                            <p class="text-gray-600">작업구역1 위험요소 일람</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md">
+                            <h3 class="font-bold text-gray-700">작업 구역 2</h3>
+                            <p class="text-gray-600">작업구역2 위험요소 일람</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md">
+                            <h3 class="font-bold text-gray-700">작업 구역 3</h3>
+                            <p class="text-gray-600">작업구역3 위험요소 일람</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="bg-gray-200 p-4 rounded-md">
+                    <h2 class="font-bold text-gray-700 mb-2">공지사항</h2>
+                    <div class="mt-2">
+                        <div class="bg-white p-2 rounded-md shadow-sm" id='notice'>
+                            <strong>공지사항 1</strong>
+                            <p>공지사항 1 요약</p>
+                        </div>
+                        <div class="bg-white p-2 rounded-md shadow-sm mt-2" id='notice'>
+                            <strong>공지사항 2</strong>
+                            <p>공지사항 2 요약</p>
+                        </div>
+                        <div class="bg-white p-2 rounded-md shadow-sm mt-2" id='notice'>
+                            <strong>공지사항 3</strong>
+                            <p>공지사항 3 요약</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="mb-4">
                 <h1 class="text-xl font-bold text-gray-700">위험 지역</h1>
                 <div class="mt-2 relative">
@@ -48,63 +100,6 @@
                     </button>
                 </div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div class="bg-gray-200 p-4 rounded-md">
-                    <h2 class="font-bold text-gray-700">공지사항</h2>
-                    <div class="mt-2">
-                        <div class="bg-white p-2 rounded-md shadow-sm" id='notice'>
-                            <strong>공지사항 1</strong>
-                            <p>공지사항 1 요약
-                        </div>
-                        <div class="bg-white p-2 rounded-md shadow-sm mt-2" id='notice'>
-                            <strong>공지사항 2</strong>
-                            <p>공지사항 2 요약
-                        </div>
-                        <div class="bg-white p-2 rounded-md shadow-sm mt-2" id='notice'>
-                            <strong>공지사항 3</strong>
-                            <p>공지사항 3 요약
-                        </div>
-                    </div>
-                </div>
-
-                <div class="md:col-span-2">
-                    <h2 class="font-bold text-gray-700 mb-2">오늘의 위험요소</h2>
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="bg-gray-200 p-4 rounded-md">
-                            <h3 class="font-bold text-gray-700">작업 구역 1</h3>
-                            <p class="text-gray-600">작업구역1 위험요소 일람</p>
-                        </div>
-                        <div class="bg-gray-200 p-4 rounded-md">
-                            <h3 class="font-bold text-gray-700">작업 구역 2</h3>
-                            <p class="text-gray-600">작업구역2 위험요소 일람</p>
-                        </div>
-                        <div class="bg-gray-200 p-4 rounded-md">
-                            <h3 class="font-bold text-gray-700">작업 구역 3</h3>
-                            <p class="text-gray-600">작업구역3 위험요소 일람</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <form method='Post'>
-                {% csrf_token %}
-                
-                <div class="mt-6">
-                    <h2 class="text-xl font-bold text-gray-700 mb-2">위험구역 사진 업로드</h2>
-                    <div class="mt-2">
-                        <input type="file" class="block w-full text-sm text-gray-500
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-full file:border-0
-                            file:text-sm file:font-semibold
-                            file:bg-gray-200 file:text-gray-700
-                            hover:file:bg-gray-300"/>
-                    </div>
-                    <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        제출
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 
@@ -118,6 +113,14 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind-dark.min.js"></script>
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+        });
+    </script>
 </body>
 <div id="corner"></div>
 <script>
@@ -137,4 +140,5 @@
     corner.onpointermove = null;
     corner.releasePointerCapture(e.pointerId);
   };
-</script></html>
+</script>
+</html>
