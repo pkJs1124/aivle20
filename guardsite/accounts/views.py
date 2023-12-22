@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from accounts.forms import LoginForm, SignupForm
+from accounts.forms import LoginForm, SignupForm, FindForm
 from django.urls import reverse
 from accounts.models import User
 
@@ -80,5 +80,21 @@ def signup(request):
         return render(request, "accounts/signup.html", context)
     
 # 아이디/비번 찾기
+# 아이디/비번 찾기
 def find(request):
-    return render(request, "accounts/find.html")
+    if request.method == 'POST':
+        form = FindForm(request.POST)
+        if form.is_valid():
+            person_name = form.cleaned_data['person_name']
+            phone_number = form.cleaned_data['phone_number']
+
+            try:
+                user = User.objects.get(person_name=person_name, phone_number=phone_number)
+                return render(request, 'accounts/find.html', {'username': user.username})
+            except User.DoesNotExist:
+                error_message = '일치하는 사용자를 찾을 수 없습니다.'
+                return render(request, 'accounts/find.html', {'form': form, 'error_message': error_message})
+    else:
+        form = FindForm()
+
+    return render(request, 'accounts/find.html', {'form': form})

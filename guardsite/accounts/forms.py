@@ -67,3 +67,9 @@ class SignupForm(forms.Form):
             raise ValidationError("전화번호는 11자리여야 합니다.")
         
         return phone_number
+    
+# 아이디 찾기
+class FindForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['person_name', 'phone_number']
