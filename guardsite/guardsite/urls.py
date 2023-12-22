@@ -24,4 +24,5 @@ urlpatterns = [
     path('accounts/',include('accounts.urls'), name='accounts'),
     path('communities/',include('communities.urls')),
     path('safetydetects/',include('safetydetects.urls')),
+    path('showreport/', include('showreport.urls')),
 ]

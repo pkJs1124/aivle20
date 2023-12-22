@@ -1,0 +1,78 @@
+<!-- checklist_app/templates/checklist_app/checklist.html -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작업 안전 체크리스트</title>
+    <style>
+        body {
+            font-family: '나눔고딕', 'Nanum Gothic', Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .checked {
+            background-color: #c1e2b3;
+            font-weight: bold; /* 추가된 부분: 체크 표시된 항목의 글자를 두껍게 표시 */
+        }
+
+        @media only screen and (max-width: 600px) {
+            table {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>작업 안전 체크리스트</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>체크리스트 항목</th>
+                <th>준수 여부</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in checklist_items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td class="check-item {% if item.checked %}checked{% endif %}" onclick="toggleCheck(this)">{% if item.checked %}☑{% else %}☐{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function toggleCheck(element) {
+            element.classList.toggle('checked');
+            if (element.classList.contains('checked')) {
+                element.innerText = '☑';
+            } else {
+                element.innerText = '☐';
+            }
+        }
+    </script>
+</body>
+</html>
