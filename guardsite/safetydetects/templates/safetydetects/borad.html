@@ -1,0 +1,7 @@
+{% for detectborad in detectborads %}
+  <div>
+    <p>작성자: {{ detectborad.user }}</p>
+    <p>모델링 결과: {{ detectborad.danger }}</p>
+    <img src="{{ detectborad.image.url }}" alt="Image">
+  </div>
+{% endfor %}
