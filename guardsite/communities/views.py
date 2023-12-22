@@ -13,7 +13,7 @@ def index(request):
     }
     return render(request,'communities/index.html',context)
 
-@login_required()
+@login_required
 def create(request):
     if request.method =='POST':
         form = NoticeForm(request.POST)
@@ -37,7 +37,7 @@ def detail(request,notice_pk):
     }
     return render(request,'communities/detail.html',context)
 
-@require_POST()
+@require_POST
 def delete(request,notice_pk):
     if request.user.is_authenticated:
         notice = get_object_or_404(Notice,pk=notice_pk)
@@ -47,7 +47,7 @@ def delete(request,notice_pk):
             return redirect(notice)
     return redirect('communities:index')
     
-@require_POST()
+@require_POST
 def update(request,notice_pk):
     notice = get_object_or_404(Notice,pk=notice_pk)
     if request.user == notice.user:
