@@ -17,7 +17,7 @@ class Tag(models.Model):
 
 class Detectborad(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = models.ManyToManyField(UploadedImage, blank=True)
+    image=models.ImageField(upload_to='uploaded_images/')
     danger = models.TextField()
     create_at = models.DateTimeField(auto_now_add = True)
     checked = models.TextField()
