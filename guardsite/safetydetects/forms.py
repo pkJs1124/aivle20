@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import UploadedImage
+from .models import UploadedImage, Detectborad
 from django.core.exceptions import ValidationError
 
 class ImageUploadForm(forms.ModelForm):
@@ -24,4 +24,8 @@ class ImageUploadForm(forms.ModelForm):
         return image
 
 
-
+class DetectboradForm(forms.ModelForm):
+    
+    class Meta:
+        model = Detectborad
+        fields = '__all__'
