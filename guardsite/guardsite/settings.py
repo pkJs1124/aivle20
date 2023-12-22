@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'communities',
     'safetydetects',
+    'showreport',
 ]
 
 MIDDLEWARE = [
