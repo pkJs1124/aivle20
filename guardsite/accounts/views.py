@@ -73,12 +73,15 @@ def signup(request):
         else:
             print(form.errors)
             context = {"form":form}
-            return render(request, "accounts/signup.html", context)
+            return render(request, "accounts/signup_active.html", context)
     else:
         form = SignupForm()
         context = {"form": form}
-        return render(request, "accounts/signup.html", context)
+        return render(request, "accounts/signup_active.html", context)
     
 # 아이디/비번 찾기
 def find(request):
     return render(request, "accounts/find.html")
+
+def toscheck(request):
+    return render(request, "accounts/signup_check.html")
