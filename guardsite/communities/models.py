@@ -6,7 +6,7 @@ from django.urls import reverse
 class Notice(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
     title = models.CharField(max_length=30)
-    content = models.TimeField()
+    content = models.TextField()
     create_at = models.DateTimeField(auto_now=True)
     etc = models.CharField(max_length=20)
     
