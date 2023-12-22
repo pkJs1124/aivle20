@@ -80,7 +80,6 @@ def signup(request):
         return render(request, "accounts/signup.html", context)
     
 # 아이디/비번 찾기
-# 아이디/비번 찾기
 def find(request):
     if request.method == 'POST':
         form = FindForm(request.POST)
