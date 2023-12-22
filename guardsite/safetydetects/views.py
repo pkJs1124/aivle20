@@ -19,7 +19,10 @@ def upload_image(request):
 
 def detectborad_list(request):
     detectborads = Detectborad.objects.all()
-    return render(request,'',{'detectborads':detectborads})
+    context = {
+        'detectborads':detectborads
+    }
+    return render(request,'borad.html',context)
 
 def detectborad(request):
     if request.method == 'POST':
@@ -38,4 +41,4 @@ def detectborad(request):
     else:
         form = DetectboradForm()
     
-    return render(request, 'create_post.html', {'form': form})
+    return render(request, 'index.html', {'form': form})
