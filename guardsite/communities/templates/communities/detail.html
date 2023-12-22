@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 class="text-center">DETAIL</h1>
+    <hr>
+    <p>번호 : {{ notice.pk }}</p>
+    <p>제목 : {{ notice.title }}</p>
+    <p>내용 : {{ notice.context }}</p>
+    <p>생성일 : {{ notice.created_at}}</p>
+    {% if request.user == notice.user %}
+      <a  href="{% url 'communities:update' notice.pk %}">UPDATE</a>
+      <form action="{% url 'communities:delete' notice.pk %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <input type="submit" value="DELETE", onclick="return confirm('진짜로 지울래?')" >
+      </form>
+    {% endif %}
+    <hr>
+
+    <a href="{% url 'communities:index' %}">[BACK]</a>
+    
+</body>
+</html>
