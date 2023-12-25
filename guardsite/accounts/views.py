@@ -107,8 +107,8 @@ def findpassword(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             phone_number = form.cleaned_data['phone_number']
-            # print(form.cleaned_data['username'])
-            # print(form.cleaned_data['phone_number'])
+            print(form.cleaned_data['username'])
+            print(form.cleaned_data['phone_number'])
             
             try:
                 user = User.objects.get(username=username, phone_number=phone_number)
