@@ -1,6 +1,33 @@
 <!doctype html>
 <html lang="ko">
 <body>
-    <h1>find</h1>
+    <h1>Find</h1>
+
+    <a href="{% url 'accounts:find' %}">아이디 찾기</a>
+    <a href="{% url 'accounts:findpassword' %}">비번 찾기</a>
+
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'accounts:find' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="찾기", id="find-username-btn">
+    </form>
+
+    <!-- 이름, 전화번호 일치 성공 -->
+    {% if username %}
+        <p>일치하는 사용자의 아이디: {{ username }}</p>
+        <a href="{% url 'accounts:login' %}">로그인</a>
+        
+        <!-- 일치하는 경우, find username 버튼을 숨기고 login 버튼을 보이게 함 -->
+        <style>
+            #find-username-btn {
+                display: none;
+            }
+        </style>
+    {% endif %}
+
 </body>
 </html>
