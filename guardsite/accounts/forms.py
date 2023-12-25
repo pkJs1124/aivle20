@@ -84,10 +84,34 @@ class ResetPasswordForm(forms.Form):
     new_password1 = forms.CharField(label='새 비밀번호', widget=forms.PasswordInput)
     new_password2 = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput)
     
+    # 비밀번호 유효성 검사
+    def clean_new_password1(self):
+        new_password1 = self.cleaned_data.get("new_password1")
+        
+        # 비밀번호 길이가 8자 이상인지 확인
+        if len(new_password1) < 8:
+            raise forms.ValidationError("비밀번호는 최소 8자리 이상이어야 합니다.")
+
+        # 대소문자, 특수문자, 숫자 중 최소 2종류 이상을 포함하는지 확인
+        char_types = 0
+        if any(char.isupper() for char in new_password1):
+            char_types += 1
+        if any(char.islower() for char in new_password1):
+            char_types += 1
+        if any(char.isdigit() for char in new_password1):
+            char_types += 1
+        if any(char.isascii() and not char.isalnum() for char in new_password1):
+            char_types += 1
+
+        if char_types < 3:
+            raise forms.ValidationError("비밀번호는 대소문자, 특수문자, 숫자 중 최소 3종류 이상을 포함해야 합니다.")
+        return new_password1
+    
     def clean_new_password2(self):
         new_password1 = self.cleaned_data.get('new_password1')
         new_password2 = self.cleaned_data.get('new_password2')
 
-        if new_password1 != new_password2:
+        if new_password1 and new_password1 != new_password2:
             raise forms.ValidationError('두 비밀번호가 일치하지 않습니다.')
+        return new_password2
     
