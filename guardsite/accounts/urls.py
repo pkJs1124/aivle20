@@ -8,4 +8,6 @@ urlpatterns = [
     path("toscheck/", views.toscheck, name='toscheck'),
     path("signup/", views.signup, name='signup'),
     path("find/", views.find, name='find'),
+    path("findpassword/", views.findpassword, name='findpassword'),
+    path("findpassword/reset_password", views.resetpassword, name='resetpassword'),
 ]

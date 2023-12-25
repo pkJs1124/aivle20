@@ -67,3 +67,27 @@ class SignupForm(forms.Form):
             raise ValidationError("전화번호는 11자리여야 합니다.")
         
         return phone_number
+    
+# 아이디 찾기
+class FindForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['person_name', 'phone_number']
+        
+# 비밀번호 찾기
+class FindpasswordForm(forms.Form):
+    username = forms.CharField()
+    phone_number = forms.CharField(label='전화번호')
+        
+# 비밀번호 재설정
+class ResetPasswordForm(forms.Form):       
+    new_password1 = forms.CharField(label='새 비밀번호', widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label='비밀번호 확인', widget=forms.PasswordInput)
+    
+    def clean_new_password2(self):
+        new_password1 = self.cleaned_data.get('new_password1')
+        new_password2 = self.cleaned_data.get('new_password2')
+
+        if new_password1 != new_password2:
+            raise forms.ValidationError('두 비밀번호가 일치하지 않습니다.')
+    
