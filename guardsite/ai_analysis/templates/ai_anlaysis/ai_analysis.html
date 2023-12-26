@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>AI Analysis Result</title>
+    <style>
+        .confirm-button {
+            display: inline-block;
+            padding: 10px 15px;
+            color: white;
+            background-color: blue;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .confirm-button:hover {
+            background-color: navy;
+        }
+    </style>
+</head>
+
+<head>
+
+    <title>안전점검결과</title>
+</head>
+<body>
+    <h1>AI Analysis Result</h1>
+    <img src="{{ result.original_image.image.url }}" alt="Original Image">
+    <img src="{{ result.processed_image.url }}" alt="Processed Image">
+    <p>{{ result.analysis_text }}</p>
+
+    
+    <a href="communities:index" class="confirm-button">확인</a>
+</body>
+</html>
