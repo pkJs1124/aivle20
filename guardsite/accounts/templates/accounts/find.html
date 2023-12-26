@@ -74,8 +74,8 @@
         </div>
         
         <div class="flex items-center justify-between mb-6">
-            <input type="submit" value="찾기" id="find-username-btn"
-                class="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
+            <input type="submit" value="검색" id="find-username-btn"
+                class="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer">
           <a href="{% url 'accounts:login' %}" class="bg-gray-200 text-gray-700 rounded py-2 px-4 hover:bg-gray-300">뒤로가기</a>
         </div>
       </form>
@@ -93,12 +93,6 @@
               </div>
           </div>
         </div>
-
-        <style>
-          #find-username-btn {
-            display: none;
-          }
-        </style>
       {% endif %}
     </div>
 
