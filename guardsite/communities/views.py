@@ -30,10 +30,10 @@ def create(request):
 
 def detail(request,notice_pk):
     notice = get_object_or_404(Notice,pk=notice_pk)
-    person = get_object_or_404(get_user_model(),pk=notice.user_id)
+    user = get_object_or_404(get_user_model(),pk=notice.user_id)
     context = {
         'notice':notice,
-        'person':person
+        'user':user
     }
     return render(request,'communities/detail.html',context)
 

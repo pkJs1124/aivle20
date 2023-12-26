@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>INDEX</h1>
+    {% if request.user.is_authenticated %}
+    <a href="{%url 'communities:create'%}"> 글작성</a>
+    {% else%}
+    <a href="{% url 'accounts:login'%}">[로그인하세요]</a>
+    {%endif%}
+
+    <hr>
+    {% for notice in notices%}
+    <p>번호 : {{notice.pk}}</p>
+    <p>제목 : {{notice.title}}</p>
+    <p>작성자: {{notice.user}}</p>
+    <a href="{{notice.get_absolute_url}}"> detail</a>
+    {%endfor%}
+</body>
+</html>

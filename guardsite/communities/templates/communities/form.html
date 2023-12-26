@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {%if request.resolver_match.url_name == 'create'%}
+    <h1 class = "text-center">글쓰기</h1>
+    {% else %}
+    <h1 class = "text-center">수정</h1>
+    {% endif %}
+    <form action="" method="POST">
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="SUBMIT">
+    </form>
+    <hr>
+    {%if request.resolver_match.url_name == 'create'%}
+    <a href="{% url 'communities:index'}">뒤로가기</a>
+    {% else %}
+
+    {% endif %}
+</body>
+</html>
