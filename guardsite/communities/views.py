@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Notice
-from .forms import NoticeForm
+from .models import Notice,Comment
+from .forms import NoticeForm,CommentForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
@@ -22,7 +22,7 @@ def create(request):
             notice.user = request.user
             notice.save()
             
-            return redirect(notice)
+            return redirect('communities:detail', notice.pk)
     else:
         form = NoticeForm()
     context = {'form':form}
@@ -47,7 +47,7 @@ def delete(request,notice_pk):
             return redirect(notice)
     return redirect('communities:index')
     
-@require_POST
+@login_required
 def update(request,notice_pk):
     notice = get_object_or_404(Notice,pk=notice_pk)
     if request.user == notice.user:
@@ -63,3 +63,23 @@ def update(request,notice_pk):
         return redirect('communities:index')
     context = {'form':form,'notice':notice}
     return render(request,'communities/form.html',context)
+
+@require_POST
+def comments_create(request, notice_pk):
+    if request.user.is_authenticated:
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.notice_id = notice_pk
+            comment.user = request.user
+            comment.save()
+    return redirect('communities:detail', notice_pk)
+
+
+@require_POST
+def comments_delete(request, notice_pk, comment_pk):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        if request.user == comment.user:
+            comment.delete()
+    return redirect('communities:detail', notice_pk)

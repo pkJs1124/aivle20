@@ -10,18 +10,48 @@
     <hr>
     <p>번호 : {{ notice.pk }}</p>
     <p>제목 : {{ notice.title }}</p>
-    <p>내용 : {{ notice.context }}</p>
+    <p>내용 : {{ notice.content }}</p>
     <p>생성일 : {{ notice.created_at}}</p>
     {% if request.user == notice.user %}
-      <a  href="{% url 'communities:update' notice.pk %}">UPDATE</a>
+      <a  href="{% url 'communities:update' notice.pk %}">수정</a>
+      <hr>
       <form action="{% url 'communities:delete' notice.pk %}" method="POST" style="display: inline;">
         {% csrf_token %}
         <input type="submit" value="DELETE", onclick="return confirm('진짜로 지울래?')" >
       </form>
     {% endif %}
-    <hr>
+<!-- 댓글 출력 -->
+<hr>
+<p><b>{{ comments|length }}개의 댓글</b></p>
+{% for comment in comments %}
+  <div>
+    댓글 {{ forloop.revcounter }} : {{ comment.content }}
+    {% if request.user == comment.user %}
+      <form action="{% url 'communities:comments_delete' notice_pk comment.pk %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <input type="submit" value="DELETE">
+      </form>
+    {% endif %}
+  </div>
+{% empty %}
+  <p><b>댓글이 없어요...</b></p>
+{% endfor %}
+<hr>
 
-    <a href="{% url 'communities:index' %}">[BACK]</a>
+{% if user.is_authenticated %}
+  <form action="{% url 'communities:comments_create' notice.pk %}" method="POST">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <input type="submit" value="submit">
+  </form>
+  <hr>
+{% else %}
+  <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요]</a>
+  <hr>
+{% endif %}
+<hr>
+
+    <a href="{% url 'communities:index' %}">뒤로가기</a>
     
 </body>
 </html>
