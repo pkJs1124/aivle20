@@ -20,3 +20,15 @@ class Notice(models.Model):
         return reverse("communities:detail", kwargs={"notice_pk":self.pk})
     
     
+class Comment(models.Model):
+    notice = models.ForeignKey(Notice, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.CharField(max_length=140)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('-pk',)
+
+    def __str__(self):
+        return self.content
