@@ -3,24 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Bulletin Board</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .contentarea{
+          height:250px;
+        }
+    </style>
 </head>
-<body>
-    {%if request.resolver_match.url_name == 'create'%}
-    <h1 class = "text-center">글쓰기</h1>
-    {% else %}
-    <h1 class = "text-center">수정</h1>
-    {% endif %}
-    <form action="" method="POST">
-        {%csrf_token%}
-        {{form.as_p}}
-        <input type="submit" value="SUBMIT">
-    </form>
-    <hr>
-    {%if request.resolver_match.url_name == 'create'%}
-    <a href="{% url 'communities:index'}">뒤로가기</a>
-    {% else %}
+<body class="bg-gray-100">
 
-    {% endif %}
+    <nav class="bg-white shadow">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="text-lg font-semibold text-gray-700">
+                        홈페이지 이름 작성
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'accounts:login' %}" class="text-gray-700 text-sm mx-2">로그인</a>
+                    {% else %}
+                        <a href="#" class="text-gray-700 text-sm mx-2">Home</a>
+                        <a href="#" class="text-gray-700 text-sm mx-2">{{user}}님</a>
+                        <a href="{% url 'accounts:logout' %}" class="text-gray-700 text-sm mx-2">로그아웃</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto p-8">
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form method='Post'>
+            {% csrf_token %}
+            <div class="mb-6">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="id_title">
+                      <input type='text' 
+                      class="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 
+                        placeholder-gray-400 focus:outline-none focus:border-indigo-500 
+                        focus:ring-indigo-500 block w-full rounded-md sm:text-sm 
+                        focus:ring-1"
+                        required
+                      id='id_title' name='title'>
+                    </label>
+                    <p></p>
+                </div>
+                <hr style="margin-top:10px; margin-bottom:10px;">
+                <div class="mb-6 contentarea">
+                    <input type='text' 
+                    class="mt-1 px-3 py-2 bg-white border shadow-sm border-gray-300 
+                        placeholder-gray-400 focus:outline-none focus:border-indigo-500 
+                        focus:ring-indigo-500 block w-full rounded-md xs:text-xs
+                        focus:ring-1"
+                        required
+                    id='id_content' name='content'>
+                </div>
+                <hr style="margin-top:10px; margin-bottom:10px;">
+                <div class="flex items-center justify-between">
+                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <input type="submit" value="SUBMIT">
+                    </button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    <script>
+        
+    </script>
 </body>
-</html>
+<style>
+#corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+}
+</style>
+<div id="corner"></div>
+<script>
+  const corner = document.getElementById('corner');
+  function resizeWindow(e) {
+    const size = {
+      width: Math.max(50,Math.floor(e.clientX+5)),
+      height: Math.max(50,Math.floor(e.clientY+5))
+    };
+    parent.postMessage( { pluginMessage: { type: 'resize', size: size }}, '*');
+  }
+  corner.onpointerdown = (e)=>{
+    corner.onpointermove = resizeWindow;
+    corner.setPointerCapture(e.pointerId);
+  };
+  corner.onpointerup = (e)=>{
+    corner.onpointermove = null;
+    corner.releasePointerCapture(e.pointerId);
+  };
+</script></html>
