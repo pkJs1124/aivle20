@@ -57,7 +57,6 @@ def update(request,notice_pk):
     if request.user == notice.user:
         if request.method == 'POST':
             form = NoticeForm(request.POST,instance=notice)
-            print(form)
             if form.is_valid():
                 form.save()
                 return redirect(notice)
