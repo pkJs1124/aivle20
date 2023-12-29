@@ -51,7 +51,7 @@ def delete(request,notice_pk):
             return redirect(notice)
     return redirect('communities:index')
     
-@require_POST
+@login_required
 def update(request,notice_pk):
     notice = get_object_or_404(Notice,pk=notice_pk)
     if request.user == notice.user:
