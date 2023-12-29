@@ -24,9 +24,11 @@
 </head>
 <body>
     <h1>AI Analysis Result</h1>
-    <img src="{{ result.original_image.image.url }}" alt="Original Image">
+    <img src="{{ MEDIA_URL }}uploaded_images/example.jpg" alt="Original Image">
     <img src="{{ result.processed_image.url }}" alt="Processed Image">
-    <p>{{ result.analysis_text }}</p>
+    <img src="C://project/aivle20/guardsite/ai_analysis/templates/ai_anlaysis/media/uploaded_images/test.jpg" alt="Processed Image">
+    
+    <p>결과: {{ result.analysis_text }}</p>
 
     
     <a href="communities:index" class="confirm-button">확인</a>
