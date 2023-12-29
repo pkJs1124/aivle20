@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'accounts',
     'communities',
     'safetydetects',
-    'showreport',
+    'ai_analysis',
+
 ]
 
 MIDDLEWARE = [
@@ -81,8 +82,13 @@ WSGI_APPLICATION = 'guardsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        # MYSQL 정보
+        'NAME': 'aivle',
+        'USER': 'root',
+        'PASSWORD': 'aivle',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -126,6 +132,9 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'ai_analysis/templates/ai_anlaysis/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploaded_images')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

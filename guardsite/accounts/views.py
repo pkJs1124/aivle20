@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-from accounts.forms import LoginForm, SignupForm
+from accounts.forms import LoginForm, SignupForm, FindForm, FindpasswordForm, ResetPasswordForm
 from django.urls import reverse
 from accounts.models import User
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import update_session_auth_hash
 
 # 로그인
 def login_view(request):
@@ -71,7 +73,7 @@ def signup(request):
             return redirect(reverse("main"))
         # 폼에 에러가 있으면 에러를 포함한 폼을 사용해 회원가입 페이지로 이동
         else:
-            print(form.errors)
+            # print(form.errors)
             context = {"form":form}
             return render(request, "accounts/signup_active.html", context)
     else:
@@ -79,9 +81,79 @@ def signup(request):
         context = {"form": form}
         return render(request, "accounts/signup_active.html", context)
     
-# 아이디/비번 찾기
+# 아이디 찾기
 def find(request):
-    return render(request, "accounts/find.html")
+    if request.method == 'POST':
+        form = FindForm(request.POST)
+        if form.is_valid():
+            person_name = form.cleaned_data['person_name']
+            phone_number = form.cleaned_data['phone_number']
+
+            try:
+                user = User.objects.get(person_name=person_name, phone_number=phone_number)
+                return render(request, 'accounts/find.html', {'username': user.username})
+            except User.DoesNotExist:
+                error_message = '일치하는 사용자를 찾을 수 없습니다.'
+                return render(request, 'accounts/find.html', {'form': form, 'error_message': error_message})
+    else:
+        form = FindForm()
+
+    return render(request, 'accounts/find.html', {'form': form})
+
+# 비번 확인
+def findpassword(request):
+    if request.method == 'POST':
+        form = FindpasswordForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            phone_number = form.cleaned_data['phone_number']
+            print(form.cleaned_data['username'])
+            print(form.cleaned_data['phone_number'])
+            
+            try:
+                user = User.objects.get(username=username, phone_number=phone_number)
+                request.session['user_id'] = user.id
+                return redirect(reverse("accounts:resetpassword"))
+            except User.DoesNotExist:
+                error_message = '일치하는 사용자를 찾을 수 없습니다.'
+                return render(request, 'accounts/find_password.html', {'form': form, 'error_message': error_message})
+        else:
+            form = FindpasswordForm()
+            return render(request, 'accounts/find_password.html', {'form': form})
+    else:
+        form = FindpasswordForm()
+        return render(request, 'accounts/find_password.html', {'form': form})
+
+# 비번 재설정
+def resetpassword(request):
+    user_id = request.session.get('user_id')
+    
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            # user = request.user
+            user = User.objects.get(id=user_id)
+            new_password1 = form.cleaned_data['new_password1']
+            new_password2 = form.cleaned_data['new_password2']
+
+            # 비밀번호 업데이트
+            user.set_password(new_password1)
+            user.save()
+
+            # 세션에서 사용자 정보 삭제
+            del request.session['user_id']
+            print(user)
+
+            return redirect(reverse("accounts:login"))
+        
+        else:
+            return render(request, 'accounts/reset_password.html', {'form': form})
+        
+    else:
+        form = ResetPasswordForm()
+        return render(request, 'accounts/reset_password.html', {'form': form})
+
+
 
 def toscheck(request):
     return render(request, "accounts/signup_check.html")

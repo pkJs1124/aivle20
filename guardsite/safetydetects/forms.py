@@ -2,7 +2,8 @@
 from django import forms
 from .models import UploadedImage, Detectborad
 from django.core.exceptions import ValidationError
-
+import logging
+logger = logging.getLogger(__name__)
 class ImageUploadForm(forms.ModelForm):
     class Meta:
         model=UploadedImage
@@ -12,6 +13,7 @@ class ImageUploadForm(forms.ModelForm):
         image = self.cleaned_data.get('image')
 
         if image:
+            logger.debug("Uploaded file content type: %s", image.content_type)
             # 파일 확장자 확인
             valid_extensions = ['jpg', 'jpeg', 'png', 'gif']
             if not any(image.name.lower().endswith(ext) for ext in valid_extensions):
