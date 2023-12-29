@@ -308,12 +308,20 @@
         agreeSite.addEventListener('change', updateSubmitButton);
 
         function updateSubmitButton() {
-            if ((agreePersonal.checked || agreePersonal.checked) && (agreeSite.checked || agreeSite.checked)) {
+            if (agreePersonal.checked && agreeSite.checked) {
                 submitButton.disabled = false;
             } else {
                 submitButton.disabled = true;
             }
         }
+    
+        // Submit 버튼 클릭 시 동의 여부 확인
+        document.getElementById('termsForm').addEventListener('submit', function (event) {
+            if (!agreePersonal.checked || !agreeSite.checked) {
+                event.preventDefault(); // 폼 제출을 막음
+                alert('이용약관을 확인하세요.');
+            }
+        });
     </script>
 
     <div id="corner"></div>

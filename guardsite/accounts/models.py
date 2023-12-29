@@ -10,3 +10,6 @@ class User(AbstractUser):
     person_name = models.CharField(max_length=20, blank=False, null=True, verbose_name='이름')
     phone_number = models.CharField(max_length=15, blank=False, null=True, verbose_name='전화번호')
     company = models.CharField(max_length=15, blank=False, null=True, verbose_name='회사')
+    
+    class Meta:
+        db_table = 'users'
