@@ -4,14 +4,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 import openai
 from datetime import datetime
-from .models import ChecklistEntry
+from .models import ChecklistEntry, Checklist
 from .forms import ChecklistForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import F
 from django.shortcuts import get_object_or_404
 
 # OpenAI API 키 설정
-openai.api_key = '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'
+openai.api_key = 'YOUR_OPEN_API_KEY'
 
 
 def get_openai_results(request):
@@ -82,7 +80,7 @@ def save_to_database(generated_text):
     print(sentences)
 
     # 각 문장에서 'true' 또는 'false' 값을 추출하여 저장
-    for sentence in sentences:
+    for index, sentence in enumerate(sentences, start=1):
         # 문장에서 ': '을 기준으로 분리하여 필드와 값으로 나눔
         try:
             field, value_str = sentence.split(': ', 1)
@@ -98,6 +96,7 @@ def save_to_database(generated_text):
         # ChecklistEntry 모델을 사용하여 DB에 저장
         entry = ChecklistEntry(
             create_at=current_date,
+            context_id=index,
             truefalse=value
         )
         entry.save()
@@ -117,38 +116,23 @@ def checklist_board(request, page=1):
 
 
 def display_checklist(request, date):
-    checklist_items = [
-        {"name": "작업에 적합한 보호구 지급 및 착용, 안전교육 실시 여부"},
-        {"name": "작업별 안전수칙 준수여부 (위험요인 확인점검, 절차 준수, 안전시설 설치 등)"},
-        {"name": "안전보건표지 부착(위험장소, 설비 등) 여부"},
-        {"name": "위험물질 사용 및 보관 등 관리상태 적정 여부 (가스, 가연성발화성 물질, 위험 보관소 등)"},
-        {"name": "가설 전기설비 설치 및 관리상태 적정 여부 (임시분전반, 케이블 등)"},
-        {"name": "개구부 및 고소작업 등 추락방지 조치 여부 (작업비계, 생명줄, 안전난간, 방호망 등 설치)"},
-        {"name": "화재 예방 조치상태 (소화기 비치, 불꽃방지커버 및 방염포 설치 등)"},
-        {"name": "건설기계 작업 안전수칙 준수여부 (사전점검, 전도방지 조치, 신호수 배치 등)"},
-        {"name": "작업장 안전통로 설치 및 동선 확보 상태 (가설계단, 가설통로 등)"},
-        {"name": "사다리 작업 시 안전 수칙 준수 여부 (아웃트리거 설치 등)"},
-        {"name": "현장 정리정돈 상태"},
-        {"name": "긴급 상황 대비 비상연락망 관리 상태"},
-    ]
-
-    # 날짜에 해당하는 데이터 가져오기
-    checklist_entries = ChecklistEntry.objects.filter(create_at=date)
-
-    results = []
-
-    for i, entry in enumerate(checklist_entries):
-        results.append({"name": checklist_items[i]["name"], "truefalse": entry.truefalse})
-
-    form = ChecklistForm(request.POST or None)
+    
+    checklist_items = []
+    entries = ChecklistEntry.objects.filter(create_at=date)
+    
+    for entry in entries:
+        checklist_items.append({"name": entry.context.context, "truefalse": entry.truefalse})
 
     if request.method == 'POST':
+        # POST 요청에서 넘어온 데이터를 기반으로 폼 생성
+        form = ChecklistForm(request.POST)
+        
         if form.is_valid():
-            # 현재 날짜
-            current_date = datetime.now().date()
+            # HTML 템플릿에서 전달받은 현재 날짜 사용
+            current_date = date
             
             # 해당 날짜에 대한 기존 데이터 가져오기
-            checklist_entry = get_object_or_404(ChecklistEntry, create_at=date)
+            checklist_entry = get_object_or_404(ChecklistEntry, create_at=current_date)
             
             # 기존 데이터가 있으면 수정, 없으면 새로 생성
             if checklist_entry:
@@ -157,8 +141,19 @@ def display_checklist(request, date):
                 form = ChecklistForm(request.POST)
 
             # 저장
-            form.save()
+            checklist_entry = form.save(commit=False)
+            
+            # 사용자가 체크를 추가하면 true, 체크를 제거하면 false로 설정
+            checklist_entry.truefalse = form.cleaned_data['truefalse']
+            
+            # 기존 데이터가 있으면 수정, 없으면 새로 생성
+            if checklist_entry:
+                checklist_entry.save()
 
-    return render(request, 'report/report.html', {'checklist_items': results, 'current_date': date})
+    else:
+        # GET 요청에서는 빈 폼을 생성
+        form = ChecklistForm()
+
+    return render(request, 'report/report.html', {'checklist_items': checklist_items, 'current_date': date})
 
     # return render(request, 'report/report.html', {'checklist_items': results})
