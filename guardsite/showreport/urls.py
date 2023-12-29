@@ -1,6 +1,9 @@
 from django.urls import path
 from .views import *
 
+app_name = 'showreport'
 urlpatterns = [
-    path('display/', display_checklist, name='display_images'),
+    path('display/<str:date>/', display_checklist, name='display_checklist'),
+    path('check/', get_openai_results, name='make_checklist'),
+    path('reportlist/<int:page>/', checklist_board, name='reportlist'),
 ]

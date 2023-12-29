@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+class ChecklistEntry(models.Model):
+    create_at = models.DateField()
+    # list_num = models.IntegerField()
+    truefalse = models.BooleanField()
+ 
+    class Meta:
+        db_table = 'report'
