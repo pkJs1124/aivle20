@@ -30,11 +30,11 @@
         {% csrf_token %}
         <div>
             <label for="person_name" class="block text-sm font-medium text-gray-700">이름</label>
-            <input type="text" id="person_name" name="person_name" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="이름을 입력해주세요">
+            <input type="text" id="person_name" name="person_name" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="이름을 입력해주세요" {% if form.person_name.value %} value="{{ form.person_name.value }}" {% endif %}>
           </div>
         <div>
           <label for="username" class="block text-sm font-medium text-gray-700">아이디</label>
-          <input type="text" id="username" name="username" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="아이디를 입력하세요">
+          <input type="text" id="username" name="username" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="아이디를 입력하세요" {% if form.person_name.value %} value="{{ form.username.value }}" {% endif %}>
           {% if form.username.errors %}
               <p class='error'>입력한 아이디는 이미 사용 중입니다.</p>
           {% endif %}
@@ -55,14 +55,14 @@
         </div>
         <div>
             <label for="phone_number" class="block text-sm font-medium text-gray-700">핸드폰 번호</label>
-            <input type="tel" id="phone_number" name="phone_number" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="핸드폰 번호를 입력해주세요">
+            <input type="tel" id="phone_number" name="phone_number" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="핸드폰 번호를 입력해주세요" {% if form.person_name.value %} value="{{ form.phone_number.value }}" {% endif %}>
             {% if form.phone_number.errors %}
               <p class='error'>올바른 전화번호를 입력하세요</p>
             {% endif %}
         </div>
         <div>
           <label for="company" class="block text-sm font-medium text-gray-700">회사</label>
-          <input type="text" id="company" name="company" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="근무지를 입력하세요">
+          <input type="text" id="company" name="company" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="근무지를 입력하세요" {% if form.person_name.value %} value="{{ form.company.value }}" {% endif %}>
         </div>
         <div>
           <label for="role" class="block text-sm font-medium text-gray-700">근무자 유형</label>
@@ -95,6 +95,8 @@
 </style>
 <div id="corner"></div>
 <script>
+  const formData = JSON.parse("{{ form_data|escapejs }}");
+  console.log(formData);
   const corner = document.getElementById('corner');
   function resizeWindow(e) {
     const size = {

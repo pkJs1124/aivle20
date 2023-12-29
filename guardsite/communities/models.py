@@ -12,7 +12,8 @@ class Notice(models.Model):
     
 
     class Meta:
-        ordering = ('-pk',)    
+        ordering = ('-pk',)
+        db_table = 'notice'     
     def __str__(self):
         return self.title
     
@@ -29,6 +30,7 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('-pk',)
+        db_table = 'comment' 
 
     def __str__(self):
         return self.content

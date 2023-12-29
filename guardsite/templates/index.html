@@ -21,7 +21,7 @@
                         <a href="{% url 'accounts:login' %}" class="text-gray-700 text-sm mx-2">로그인</a>
                     {% else %}
                         <a href="#" class="text-gray-700 text-sm mx-2">Home</a>
-                        <a href="#" class="text-gray-700 text-sm mx-2">{{user}}님</a>
+                        <a href="#" class="text-gray-700 text-sm mx-2">{{ user.username|slice:":1" }}**님</a>
                         <a href="{% url 'accounts:logout' %}" class="text-gray-700 text-sm mx-2">로그아웃</a>
                     {% endif %}
                 </div>

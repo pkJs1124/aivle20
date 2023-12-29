@@ -82,8 +82,13 @@ WSGI_APPLICATION = 'guardsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        # MYSQL 정보
+        'NAME': 'aivle',
+        'USER': 'root',
+        'PASSWORD': 'aivle',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
