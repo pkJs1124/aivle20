@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'communities',
     'safetydetects',
     'ai_analysis',
+    'showreport',
 
 ]
 
