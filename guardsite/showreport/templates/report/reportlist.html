@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>체크리스트 게시판</title>
+    <!-- 스타일 등 필요한 부분 추가 -->
+</head>
+<body>
+    <h2>체크리스트 게시판</h2>
+
+    <ul>
+        {% for entry in checklist_entries %}
+            <li><a href="{% url 'showreport:display_checklist' date=entry.create_at %}">{{ entry.create_at }} 체크리스트</a></li>
+        {% endfor %}
+    </ul>
+
+    <!-- 페이지 링크 추가 -->
+    <div>
+        {% if checklist_entries.has_previous %}
+            <a href="{% url 'checklist_board' checklist_entries.previous_page_number %}">이전</a>
+        {% else %}
+            <span>이전</span>
+        {% endif %}
+    
+        <span>페이지 {{ page }} / {{ checklist_entries.paginator.num_pages }}</span>
+    
+        {% if checklist_entries.has_next %}
+            <a href="{% url 'checklist_board' checklist_entries.next_page_number %}">다음</a>
+        {% else %}
+            <span>다음</span>
+        {% endif %}
+    </div>
+
+    <!--체크리스트 생성 버튼-->
+    <button onclick="window.location.href='{% url 'showreport:make_checklist' %}'">체크리스트 만들기</button>
+</body>
+</html>

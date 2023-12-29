@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>작업 안전 체크리스트</title>
+    <title>{{ current_date }}작업 안전 체크리스트</title>
     <style>
         body {
             font-family: '나눔고딕', 'Nanum Gothic', Arial, sans-serif;
@@ -45,7 +45,15 @@
         }
     </style>
 </head>
+
 <body>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">저장</button>
+    </form>
+
     <h2>작업 안전 체크리스트</h2>
     <table>
         <thead>
@@ -58,7 +66,7 @@
             {% for item in checklist_items %}
                 <tr>
                     <td>{{ item.name }}</td>
-                    <td class="check-item {% if item.checked %}checked{% endif %}" onclick="toggleCheck(this)">{% if item.checked %}☑{% else %}☐{% endif %}</td>
+                    <td class="check-item {% if item.truefalse %}checked{% endif %}" onclick="toggleCheck(this)">{% if item.truefalse %}☑{% else %}☐{% endif %}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -75,4 +83,5 @@
         }
     </script>
 </body>
+
 </html>
