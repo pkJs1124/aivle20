@@ -1,9 +1,16 @@
 from django.db import models
+from django.utils import timezone
+
+class Checklist(models.Model):
+    context = models.TextField()
+
+    class Meta:
+        db_table = 'checklist'
 
 class ChecklistEntry(models.Model):
     create_at = models.DateField()
-    # list_num = models.IntegerField()
+    context = models.ForeignKey(Checklist, on_delete=models.CASCADE)
     truefalse = models.BooleanField()
- 
+
     class Meta:
         db_table = 'report'
