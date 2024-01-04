@@ -6,6 +6,10 @@ from accounts.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import update_session_auth_hash
 
+# 로딩페이지
+def loading_view(request):
+    return render(request, 'accounts/loading.html')
+
 # 로그인
 def login_view(request):
     if request.user.is_authenticated:
