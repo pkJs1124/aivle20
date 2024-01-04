@@ -5,6 +5,6 @@ from django.urls import reverse
 # Create your views here.
 def main_page(request):
    if not request.user.is_authenticated:
-       return redirect(reverse("accounts:login"))
+       return redirect(reverse("accounts:loading"))
    else:
        return render(request,"index.html") 
