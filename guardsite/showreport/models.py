@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+from accounts.models import User
 
 class Checklist(models.Model):
     context = models.TextField()
@@ -11,6 +11,7 @@ class ChecklistEntry(models.Model):
     create_at = models.DateField()
     context = models.ForeignKey(Checklist, on_delete=models.CASCADE)
     truefalse = models.BooleanField()
+    # user = models.ForeignKey(person_name, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'report'
