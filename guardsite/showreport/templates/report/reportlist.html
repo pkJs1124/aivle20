@@ -12,7 +12,7 @@
         }
         
         h1 {
-            font-size: 1.5em; /* h1의 글꼴 크기를 상대적으로 키움 */
+            font-size: 2em; /* h1의 글꼴 크기를 상대적으로 키움 */
         }
         
         .title-text {
@@ -30,6 +30,7 @@
 
         li {
             margin-bottom: 20px; /* 각 목록 아이템 사이 여백을 더 크게 조절 */
+            font-size: 1.5em;
         }
         
         hr {
@@ -42,16 +43,18 @@
         a {
             text-decoration: none; /* 링크에 밑줄 제거 (선택사항) */
             color: black; /* 링크 텍스트 색상을 검은색으로 지정 */
-            font-size: 1.3em; /* 글꼴 크기를 상대적으로 키움 */
+            font-size: 1.5em; /* 글꼴 크기를 상대적으로 키움 */
         }
 
         button {
             border-radius: 20px; /* 테두리를 둥글게 만들기 위한 추가 */
             padding: 10px 30px; /* 버튼 안의 내용과 테두리 간 여백 조절을 위한 추가 */
             position: absolute;
-            top: 42px; /* body의 margin만큼 떨어지도록 설정 */
-            right: 40px; /* body의 margin만큼 떨어지도록 설정 */
-            font-size: 1em; /* 글꼴 크기를 상대적으로 키움 */
+            top: 65px; /* body의 margin만큼 떨어지도록 설정 */
+            right: 60px; /* body의 margin만큼 떨어지도록 설정 */
+            font-size: 1.5em; /* 글꼴 크기를 상대적으로 키움 */
+            background-color: #ffffff; /* 파란색으로 변경 */
+            border: 1px solid #719FD6;
         }
     </style>
 </head>
@@ -61,17 +64,35 @@
         <!--체크리스트 생성 버튼-->
         <button onclick="window.location.href='{% url 'showreport:make_checklist' %}'">만들기</button>
     </h1>
-
+    <br>
     <hr>
 
     <ul>
-        {% for entry in checklist_entries %}
+        {% for entry in page %}
             <li>
-                <a href="{% url 'showreport:display_checklist' date=entry.create_at %}">{{ entry.create_at }} 체크리스트</a>
+                <a href="{% url 'showreport:display_checklist' date=entry.create_at %}">
+                    {{ entry.create_at|date:"Y-m-d" }} 체크리스트
+                </a>
             </li>
             <hr>
         {% endfor %}
     </ul>
+
+    <br>
+    <br>
+    <div>
+        <ul style="display:flex;list-style: none;">
+            <!-- 템플릿에서 현재 페이지 번호를 사용하여 페이지 링크 생성 -->
+                <li style="margin:3px;"><a style="text-decoration:none; color:blue;" href="?page={{ page_obj.previous_page_number }}">&#10094; Prev</a></li>
+
+                {% for page_num in paginator.page_range %}
+                    <li style="margin:3px;"><a style="text-decoration:none; color:blue;" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                {% endfor %}
+
+                <li style="margin:3px;"><a style="text-decoration:none; color:blue;" href="?page={{ page_obj.next_page_number }}">&#10095; Next</a></li>
+
+        </ul>
+    </div>
 
 </body>
 </html>

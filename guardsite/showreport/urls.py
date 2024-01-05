@@ -5,5 +5,5 @@ app_name = 'showreport'
 urlpatterns = [
     path('display/<str:date>/', display_checklist, name='display_checklist'),
     path('check/', get_openai_results, name='make_checklist'),
-    path('reportlist/<int:page>/', checklist_board, name='reportlist'),
+    path('reportlist/', checklist_board, name='checklist_board'),
 ]

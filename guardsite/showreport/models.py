@@ -11,7 +11,7 @@ class ChecklistEntry(models.Model):
     create_at = models.DateField()
     context = models.ForeignKey(Checklist, on_delete=models.CASCADE)
     truefalse = models.BooleanField()
-    # user = models.ForeignKey(person_name, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User.person_name, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'report'

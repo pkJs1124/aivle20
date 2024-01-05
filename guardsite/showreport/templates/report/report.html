@@ -8,8 +8,9 @@
     <title>작업 안전 체크리스트</title>
     <style>
         body {
+            /*B3D8FF*/
             /* font-family: '나눔고딕', 'Nanum Gothic', Arial, sans-serif; */
-            margin: 40px;
+            margin: 60px;
             font-size: 16px; /* 기본 글꼴 크기를 16px로 설정 (조절 가능) */
         }
 
@@ -17,7 +18,7 @@
             color: #333; /* 제목의 글자색 지정 (선택사항) */
             text-align: center; /* 가운데 정렬 */
             position: relative;
-            font-size: 1.5em; /* h1의 글꼴 크기를 상대적으로 키움 */
+            font-size: 2em; /* h1의 글꼴 크기를 상대적으로 키움 */
         }
 
         .report-title {
@@ -30,46 +31,83 @@
 
         button {
             border-radius: 20px;
-            padding: 8px 30px; /* 버튼 안의 내용과 테두리 간 여백 조절을 위한 추가 */
-            position: absolute;
-            top: 38px;
-            right: 35px;
-            font-size: 1em; /* 버튼의 글씨 크기를 조절 */
+            padding: 10px 30px; /* 버튼 안의 내용과 테두리 간 여백 조절을 위한 추가 */
+            font-size: 2em; /* 버튼의 글씨 크기를 조절 */
+            background-color: #ffffff; /* 파란색으로 변경 */
+            border:1px solid #719FD6;
+        }
+
+        form {
+            text-align: right;
+            margin-right: 50px;
+            margin-top: 50px;
         }
         
+        .line{
+            /*border-bottom:1px solid #000;*/
+            background-color: #EBF3FF;
+        }
 
         table {
             width: 100%;
-            
-            margin-top: 20px;
-            border: none;
-            
+            margin-top: 50px;
+            border-collapse: separate;
+            border-spacing: 20px; /* 모든 간격을 동일하게 30px로 설정 */
+            margin-bottom: 20px; /* 표 아래 여백 추가 */
+            font-size: 1.5em;
         }
-
-        .line{border-bottom:1px solid #000;}
-
+        
         th, td {
-            
-            padding: 12px; /* 셀 안의 내용과 테두리 간 여백 조절을 위한 추가 */
+            padding: 20px; /* 셀 안의 내용과 테두리 간 여백을 더 크게 조절 */
             text-align: left;
             cursor: pointer;
-            font-size: 1.2em; /* 테이블 셀의 글씨 크기를 조절 */
-            /*border-bottom:1px solid #000;*/
+            font-size: 1.2em;
+            border-color: #C7CEE0;
+        }
+        
+        th:first-child,
+        td:first-child {
+            border-top: 1px solid #000; /* 상단 테두리 추가 */
+            border-bottom: 1px solid #000; /* 하단 테두리 추가 */
+            border-right: 1px solid #000; /* 좌측 테두리 추가 */
+            border-left: 1px solid #000; /* 우측 테두리 추가 */
+            border-color: #C7CEE0;
+        }
+        
+        th:last-child,
+        td:last-child {
+            border-color: #C7CEE0;
         }
 
+        td {
+            border-radius: 10px; /* 원하는 둥근 정도로 설정 */
+            /* 다른 필요한 스타일 속성들 */
+        }
+        
         th {
             background-color: #f2f2f2;
         }
 
-        .checked {
-            background-color: #c1e2b3;
+        td.checked {
+            font-weight: bold;
+            /*border-bottom:1px solid #000;*/
+            background-color: #EBF3FF;
+        }
+
+        .check-item.checked {
+            background-color: #ffffff;
             font-weight: bold; /* 추가된 부분: 체크 표시된 항목의 글자를 두껍게 표시 */
-            border-bottom:1px solid #000;
+            /*border-bottom:1px solid #000; */
+        }
+
+        .check-item {
+            background-color: #ffffff;
+            font-size: 2em;
         }
 
         @media only screen and (max-width: 600px) {
             table {
-                font-size: 14px;
+                font-size: 16px;
             }
         }
     </style>
@@ -79,14 +117,10 @@
 
     <h1>
         <span class="report-title">{{ current_date }} 작업 안전</span>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">저장</button>
-        </form>
     </h1>
 
 
+    <div class="table-container">
     <table>
         <!-- <thead>
             <tr>
@@ -97,20 +131,33 @@
         <tbody>
             {% for item in checklist_items %}
                 <tr>
+                    <td class="{% if item.truefalse %}checked{% endif %} line">{{ item.name }}</td>
                     <td class="check-item {% if item.truefalse %}checked{% endif %}" onclick="toggleCheck(this)">{% if item.truefalse %}☑{% else %}☐{% endif %}</td>
-                    <td class="line">{{ item.name }}</td>
+                    
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">저장</button>
+    </form>
 
     <script>
         function toggleCheck(element) {
             element.classList.toggle('checked');
+        
             if (element.classList.contains('checked')) {
                 element.innerText = '☑';
+                element.previousElementSibling.classList.add('checked'); // 이전 형제 요소(td)에 'checked' 클래스 추가
+                element.previousElementSibling.style.fontWeight = 'bold'; // 텍스트를 굵게 설정
             } else {
                 element.innerText = '☐';
+                element.previousElementSibling.classList.remove('checked'); // 이전 형제 요소(td)에서 'checked' 클래스 제거
+                element.previousElementSibling.style.fontWeight = 'normal'; // 굵은 스타일 제거
             }
         }
     </script>

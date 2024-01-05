@@ -7,9 +7,10 @@ from datetime import datetime
 from .models import ChecklistEntry, Checklist
 from .forms import ChecklistForm
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # OpenAI API 키 설정
-openai.api_key = 'YOUR_OPEN_API_KEY'
+openai.api_key = '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'
 
 
 def get_openai_results(request):
@@ -35,6 +36,8 @@ def get_openai_results(request):
         {"user": "a", "danger": ["추락", "협착"], "create_at": "2023-12-12", "area": "2층", "y/n": "y"},
         {"user": "b", "danger": ["낙하"], "create_at": "2023-12-12", "area": "1층", "y/n": "y"},
         {"user": "c", "danger": ["추락", "화재", "전도"], "create_at": "2023-12-12", "area": "야외", "y/n": "y"},
+        
+        # 추락, 협착, 전도, 낙하, 화재
     ]
 
     # user_messages 생성
@@ -104,15 +107,26 @@ def save_to_database(generated_text):
     print("Result saved to database.")
     
     
-def checklist_board(request, page=1):
-    items_per_page = 10
-    start_index = (page - 1) * items_per_page
-    end_index = start_index + items_per_page
+def checklist_board(request):
+    items_per_page = 2
+    page = request.GET.get('page')
 
     # 중복 제거 및 정렬된 날짜 가져오기
     dates = ChecklistEntry.objects.values('create_at').distinct().order_by('-create_at')
 
-    return render(request, 'report/reportlist.html', {'checklist_entries': dates, 'page': page})
+    # Paginator를 사용하여 날짜를 페이지별로 나누기
+    paginator = Paginator(dates, items_per_page)
+    
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page=1
+        page_obj = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        page_obj = paginator.page(page)
+
+    return render(request, 'report/reportlist.html', {'checklist_entries': dates, 'page': page_obj, 'paginator':paginator})
 
 
 def display_checklist(request, date):
