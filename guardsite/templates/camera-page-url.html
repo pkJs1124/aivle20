@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>안전점검{% block content %}
+        <!-- 기본 콘텐츠 -->
+        {% endblock %}</title>
+    <link rel="stylesheet" href="css/basestyle.css"> <!-- CSS 파일 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Sunflower:wght@300&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Roboto+Slab:wght@400;700&family=Sunflower:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar fixed-top bg-body-tertiary">
+        <div class="container-fluid">
+            <header>
+                <div class="headframe" id="hf">
+                    <a class="navbar-brand" href="#">
+                        <img src="../static/images/safety.png" alt="안전" width="50" height="40" class="d-inline-block align-text-top">
+                        안전짱
+                    </a>
+                    <div class="name" >
+                        김병수님
+                    </div>
+                </div>
+            </header>
+        </div>
+    </nav>
+    
+    <main>
+ 
+캠
+    </main>
+    <nav class="navbar fixed-bottom bg-body-tertiary">
+        <div class="container-fluid">
+            <footer>     
+                <div class="frame">
+                    
+                      
+                        <a href="base.html" class="nav-link">
+                            <img class="nav-image" src="../static/images/home.png" alt="홈" />
+                        </a>
+                        <a href="camera-page-url.html"  class="nav-link">
+                            <img class="nav-image" src="../static/images/cam.png" alt="카메라" />
+                        </a>
+                        <a href="check.html" class="nav-link">
+                            <img class="nav-image" src="../static/images/check.png" alt="체크"/>
+                        </a>
+                        <a href="notice.html" class="nav-link">
+                            <img class="nav-image" src="../static/images/notice.png" alt="공지사항" />
+                        </a>
+                        <a href="user.html" class="nav-link">
+                            <img class="nav-image" src="../static/images/user.png" alt="유저" />
+                        </a>
+                </div>
+            </footer>
+        </div>
+      </nav>
+    
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var currentPage = window.location.pathname;
+        
+            if(currentPage === '/guardsite/templates/base.html') {
+                document.querySelector("a[href='base.html'] .nav-image").classList.add("current-page");
+            } else if(currentPage === '/guardsite/templates/camera-page-url.html') {
+                document.querySelector("a[href='camera-page-url.html'] .nav-image").classList.add("current-page");
+            } else if(currentPage === '/guardsite/templates/check.html') {
+                document.querySelector("a[href='check.html'] .nav-image").classList.add("current-page");
+            } else if(currentPage === '/guardsite/templates/notice.html') {
+                document.querySelector("a[href='notice.html'] .nav-image").classList.add("current-page");
+            } else if(currentPage === '/guardsite/templates/user.html') {
+                document.querySelector("a[href='user.html'] .nav-image").classList.add("current-page");
+            }
+        });
+    </script>
+    <script src="script.js"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
