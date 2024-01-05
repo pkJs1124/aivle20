@@ -1,0 +1,138 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="Ko">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #B3D8FF;
+      background-color: rgba(179, 216, 255, 1); /* rgba로 변경하여 투명도 조절 */
+      opacity: 1;
+      transition: opacity 0.3s ease, background-color 0.3s ease; /* 배경색에 대한 트랜지션 추가 */
+    }
+
+    #loading {
+      text-align: center;
+    }
+
+    #loading img {
+      width: 200px;
+      height: 400px;
+    }
+
+    #text-container {
+      margin-left: 20px; /* 조절할 수 있는 여백 값 */
+    }
+
+    #text-container h3,
+    #text-container h1 {
+      margin: 0;
+    }
+
+    #text-container h3 {
+        font-size: 2em; /* 텍스트 크기를 조절할 수 있는 값 */
+      }
+
+    #text-container h1 {
+        font-size: 3em; /* 텍스트 크기를 조절할 수 있는 값 */
+      }
+
+    /* 로딩 */
+      .dots-container {
+        display: flex;
+        align-items: center;
+        margin-top: 20px; /* 위쪽 마진을 20px로 설정 */
+        margin-left: 20px; /* 오른쪽 마진을 20px로 설정 */
+        height: 100%;
+        width: 100%;
+      }
+      
+      .dot {
+        height: 20px;
+        width: 20px;
+        margin-right: 10px;
+        border-radius: 10px;
+        background-color: #b3d4fc;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+      
+      .dot:last-child {
+        margin-right: 0;
+      }
+      
+      .dot:nth-child(1) {
+        animation-delay: -0.3s;
+      }
+      
+      .dot:nth-child(2) {
+        animation-delay: -0.1s;
+      }
+      
+      .dot:nth-child(3) {
+        animation-delay: 0.1s;
+      }
+      
+      @keyframes pulse {
+        0% {
+          transform: scale(0.8);
+          background-color: #b3d4fc;
+          box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+        }
+      
+        50% {
+          transform: scale(1.2);
+          background-color: #6793fb;
+          box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
+        }
+      
+        100% {
+          transform: scale(0.8);
+          background-color: #b3d4fc;
+          box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+        }
+      }
+  </style>
+</head>
+
+<body>
+    <div id="loading">
+        <img src="{% static 'images/loading.png' %}" alt="이미지" width="200" height="400">
+    </div>
+
+    <div id="text-container">
+        <h3>안전한 공사, 우리의 첫걸음</h3>
+        <h1>함께 만들어가는<br>
+            <span style="color: blue; font-weight: bold;">안전한 현장</span>에 <br>
+            참여하세요</h1>
+        <section class="dots-container">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </section>
+    </div>
+
+
+
+    <script>
+        // 2초 후에 투명도와 배경색의 투명도를 0으로 설정하여 페이드 아웃 효과 적용
+        setTimeout(function () {
+            document.body.style.opacity = 0;
+            document.body.style.backgroundColor = "rgba(179, 216, 255, 0)"; // 배경색의 투명도 0으로 설정
+            
+            // 0.3초 후에 로그인 페이지로 이동
+            setTimeout(function () {
+                window.location.href = "{% url 'accounts:login' %}";
+            }, 300);
+        }, 2000);
+    </script>
+
+</body>
+</html>

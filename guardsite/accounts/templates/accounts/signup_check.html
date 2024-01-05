@@ -54,24 +54,27 @@
 
         }
 
+        .submit-button-container {
+            text-align: right;
+          }
+
     </style>
 </head>
-<body class="bg-white text-gray-800">
-    <header class="flex justify-between items-center p-4 border-b border-gray-200">
-        <div class="text-lg font-semibold">Privacy Policy and Terms of Service</div>
-    </header>
+<body class="bg-white-100">
+    <div class="min-h-screen flex flex-col justify-center items-center">
+      <div style="background-color: #B3D8FF;" class="transition-transform hover:scale-105 p-8 rounded-lg shadow-md w-full max-w-md">
 
-    <main class="flex flex-col items-center py-10">
-        <h1 class="text-3xl font-bold mb-8">이용약관</h1>
+        <h1 class="text-2xl font-bold text-center mb-8">이용약관</h1>
         <form class="w-full max-w-lg" id="termsForm" action="{% url 'accounts:signup' %}" method="get">
             <!-- 링크 추가 해야됨! -->
             <div class="flex flex-col mb-4">
                 <h4 class="text-xl font-bold mb-0">
                     <span>개인정보 처리에 대한 이용약관</span>
                 </h4>
+
                 <a href="#" onclick="showModal('terms')" class="text-gray-500 text-right">자세히 보기</a>
 
-                <div class="flex items-center justify-end mb-2 space-x-2">
+                <div class="mt-2 flex items-center justify-end mb-2 space-x-2 p-3 rounded-md">
                     <label for="agree_personal" class="text-right">
                         <input type="radio" id="agree_personal" name="agree_personal" value="yes" required> 동의합니다
                     </label>
@@ -79,6 +82,7 @@
                         <input type="radio" id="disagree_personal" name="agree_personal" value="no" required checked> 동의하지 않습니다
                     </label>
                 </div>
+
             </div>
 
             <div class="flex flex-col mb-4">
@@ -87,7 +91,7 @@
                 </h4>
                 <a href="#" onclick="showModal('siteTerms')" class="text-gray-500 text-right">자세히 보기</a>
 
-                <div class="flex items-center justify-end mb-2 space-x-2">
+                <div class="mt-2 flex items-center justify-end mb-2 space-x-2 p-3 rounded-md">
                     <label for="agree_site" class="text-right">
                         <input type="radio" id="agree_site" name="agree_site" value="yes" required> 동의합니다
                     </label>
@@ -97,14 +101,19 @@
                 </div>
             </div>
 
-            <button type="submit" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-700" disabled>Submit</button>
+            <div class="flex justify-between items-center">
+                <button type="button" class="bg-gray-200 text-gray-700 rounded py-2 px-4 hover:bg-gray-300"><a href="{% url 'accounts:login' %}">뒤로가기</a></button>
+                <button type="submit" class="bg-black text-white rounded py-2 px-4 hover:bg-gray-800">다음</button>
+            </div>
         </form>
-    </main>
+    </div>
+</div>
+</body>
 
     <div id="termsModal" class="modal">
         <button onclick="hideModal('terms')" class="float-right text-lg cursor-pointer">&times;</button>
         <div class="text-base">
-          <h1>개인정보 수집 및 이용 동의</h1>
+            <h1>개인정보 수집 및 이용 동의</h1>
             <h2>1. 개인정보의 수집 및 이용 목적</h2>
             <p>본 웹사이트에서는 서비스 제공을 위해 필요한 최소한의 개인정보를 수집합니다. 수집된 개인정보는 다음과 같은 목적으로만 사용됩니다.</p>
             <p>회원 관리: 본인 확인, 개인 식별, 불량 회원 방지, 연령 확인, 서비스 이용 동의 확인</p>
@@ -118,6 +127,7 @@
             <p>목적 달성 후 개인정보는 즉시 파기되며, 전자적 파일은 기술적 방법으로 삭제, 종이 문서는 분쇄 또는 소각하여 파기합니다.</p>
             <h2>5. 개인정보의 안전성 확보 조치</h2>
             <p>본 웹사이트는 개인정보보호법 준수를 위해 기술적, 관리적 보호 조치를 마련하고 있습니다. 이는 정보의 분실, 도난, 유출, 변조를 방지하기 위함입니다.</p>
+
         </div>
     </div>
 
@@ -259,9 +269,13 @@
             <p>제1조(시행일)</p>
 
             <p>본 약관은 2024.01.20부터 시행됩니다.</p>  
-           
+
         </div>
     </div>
+
+
+
+
 
     <div id="modalOverlay" class="overlay"></div>
 
