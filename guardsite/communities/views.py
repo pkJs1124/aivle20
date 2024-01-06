@@ -4,14 +4,20 @@ from .forms import NoticeForm,CommentForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
     notices = Notice.objects.all()
+    page = request.GET.get("page",1)
+    paginator = Paginator(notices,10)
+    object_list = paginator.get_page(page)
+    
+    
     context = {
-        'notices':notices
+        'notices':object_list
     }
-    return render(request,'communities/index.html',context)
+    return render(request,'communities/list.html',context)
 
 @login_required
 def create(request):
