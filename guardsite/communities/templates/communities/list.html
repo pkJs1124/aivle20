@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+.table {
+   border-collapse: separate;
+   border-spacing: 20px 20px;
+ }
+</style>
+
+{% endblock %}
+{% block content %}
+
+<div class="container mt-10">
+    <div class="mt-20">
+        
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <td>번호</td>
+                    <td>제목</td>
+                    <td>글쓴이</td>
+                    <td>날짜</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% if notices%}
+                    {% for notice in notices %}
+                        <tr>
+                            <!-- 글번호 = (전제글수) - (시작인덱스) - (현재인덱스) + 1 -->
+                            <td>{{ notice.pk }}</td>
+                            <td><a href="{% url 'communities:detail' notice.id %}">{{ notice.title }}</a></td>
+                            <td>{{ notice.user }}</td>
+                            <td>{{ notice.create_at }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="4">등록된 글이 없습니다.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <div>
+            <a href="{% url 'communities:create' %}" class="btn btn-primary">등록하기</a>
+        </div>
+
+        <!-- 페이징 -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 페이지 -->
+                {% if notices.has_previous %}<!-- 이전 페이지 있음 -->
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ notices.previous_page_number }}">이전</a>
+                    </li>
+                {% else %}<!-- 이전 페이지 없음 -->
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                    </li>
+                {% endif %}
+
+                <!-- 페이지 리스트 -->
+                {% for page_number in notices.paginator.page_range %}
+                    <!-- 현재 페이지를 기준으로 좌우 5개씩 보이도록 처리 -->
+                    {% comment %} {% if page_number >= notices.number|add:-5 and page_number <=notices.number|add:5 %} {% endcomment %}
+                        {% if page_number == notices.number %}<!-- 현재 페이지 번호와 같음 -->
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                        {% else %}<!-- 현재 페이지 번호와 다름 -->
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                            </li>
+                        {% endif %}
+                    {% comment %} {% endif %} {% endcomment %}
+                {% endfor %}
+
+                <!-- 다음 페이지 -->
+                {% if notices.has_next %}<!-- 다음 페이지 있음 -->
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ notices.next_page_number }}">다음</a>
+                    </li>
+                {% else %}<!-- 다음 페이지 없음 -->
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <!--// 페이징 -->
+
+    </div>
+</div>
+   
+{% endblock %}

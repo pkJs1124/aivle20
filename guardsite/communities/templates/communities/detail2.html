@@ -1,10 +1,3 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block style %}
-{% endblock %}
-{% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +15,7 @@
 <body class="bg-gray-100">
 
 
-    <div class="container mx-auto p-8 mt-20">
+    <div class="container mx-auto p-8">
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div class="mb-6">
                 <div class="mb-4">
@@ -39,7 +32,7 @@
                 <div class="flex items-center justify-between">
                     
                       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                        <a  href="{% url 'communities:update' notice.pk %}">UPDATE</a>
+                        <a href="{% url 'communities:update' notice.pk %}">Update</a>
                       </button>
                     
                     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
@@ -79,9 +72,7 @@
                         <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="comments" placeholder="댓글쓰기" name='content'></textarea>
                       </div>
                     <div class="flex items-center justify-between">
-                      <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                      <a href="{% url 'communities:index' %}" >목록</a></button>
-                    <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit"
+                      <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit"
                           value='Submit'/>
                       
                   </div>
@@ -92,8 +83,6 @@
     <script>
         
     </script>
-
-{%endblock%}
 </body>
 <style>
 #corner {
