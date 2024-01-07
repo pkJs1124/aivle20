@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 def index(request):
     notices = Notice.objects.all()
     page = request.GET.get("page",1)
-    paginator = Paginator(notices,10)
+    paginator = Paginator(notices,6)
     object_list = paginator.get_page(page)
     
     

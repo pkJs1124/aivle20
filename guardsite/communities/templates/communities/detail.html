@@ -16,6 +16,13 @@
         .contentarea{
           height:250px;
         }
+        .delete-button{
+          justify-content: space-evenly;
+          
+          
+
+          
+        }
     </style>
 </head>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -38,14 +45,14 @@
                 <hr style="margin-top:10px; margin-bottom:10px;">
                 <div class="flex items-center justify-between">
                     
-                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                        <a  href="{% url 'communities:update' notice.pk %}">UPDATE</a>
+                      <button class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        <a  href="{% url 'communities:update' notice.pk %}">수정</a>
                       </button>
                     
-                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button class="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                       <form action="{% url 'communities:delete' notice.pk %}" method="POST" style="display: inline;">
                         {% csrf_token %}
-                        <input type="submit" value="DELETE", onclick="return confirm('진짜로 지울래?')" >
+                        <input type="submit" value="삭제", onclick="return confirm('진짜로 지울래?')" >
                       </form>
                     </button>
                 </div>
@@ -57,15 +64,17 @@
                         댓글
                     </label>
                     {% for comment in comments %}
-                    <div>
-                      댓글 {{ forloop.revcounter }} : {{ comment.content }}
+                    <div class="flex items-center justify-between">
+                       {{ comment.user }} : {{ comment.content }}
+                    
                       {% if request.user == comment.user %}
-                        <form action="{% url 'communities:comments_delete' notice.pk comment.pk %}" method="POST" style="display: inline;">
+                        <form action="{% url 'communities:comments_delete' notice.pk comment.pk %}" method="POST" >
                           {% csrf_token %}
-                          <input type="submit" value="DELETE">
+                          <button><input class ="justify-between" type="submit" value="X" style="color:red ;"></button>
                         </form>
+                      </div>
                       {% endif %}
-                    </div>
+                    
                   {% empty %}
                     <!--댓글 없을때 대비용. 현재는 비워둠-->
                   {% endfor %}
@@ -79,10 +88,10 @@
                         <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="comments" placeholder="댓글쓰기" name='content'></textarea>
                       </div>
                     <div class="flex items-center justify-between">
-                      <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                      <button class="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                       <a href="{% url 'communities:index' %}" >목록</a></button>
-                    <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit"
-                          value='Submit'/>
+                    <input class="bg-blue-400 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit"
+                          value='댓글달기'/>
                       
                   </div>
               </form>
