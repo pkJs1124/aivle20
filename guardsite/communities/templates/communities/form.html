@@ -2,17 +2,29 @@
 
 
 {% block style %}
+<style>
+.head-co{
+    margin-top:5rem;
+
+#button-color{
+    background-color:#B3D8FF;
+}
+}
+
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-2">
+<div class ="head-co">
+
+<div class="container">
     <div class="row mt-2">
         
         <form method="post">
             {% csrf_token %}
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-header">
-                    글 등록
+                    공지사항
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
@@ -25,16 +37,16 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="{% url 'communities:index' %}" class="btn btn-secondary">목록</a>
+                    <a href="{% url 'communities:index' %}" class="btn" id ="button-color">목록</a>
                     <div class="float-end">
-                        <button type="submit" class="btn btn-primary">등록</button>
+                        <button type="submit" class="btn" id ="button-color">등록</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
+</div>
 
 
 {% endblock %}
