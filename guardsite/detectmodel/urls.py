@@ -1,9 +1,9 @@
 from django.urls import path
-#from .views import new
+from .views import upload_and_predict
 
 
-app_name = 'safetydetects'
+app_name = 'detectmodel'
 urlpatterns = [
-   # path('', new),
+   path('', upload_and_predict),
    
 ] 
