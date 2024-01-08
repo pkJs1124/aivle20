@@ -1,0 +1,16 @@
+<!-- myapp/templates/result_page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Page</title>
+</head>
+<body>
+    <h2>Image Processed Successfully!</h2>
+    <img src="{{ uploaded_image.image.url }}" alt="Uploaded Image">
+    <h2>Predictions</h2>
+    <p>Class: {{ predictions }}</p>
+    <!-- Add content or result information here -->
+</body>
+</html>
