@@ -83,9 +83,13 @@
             </tbody>
         </table>
 
-        <div>
-            <a href="{% url 'communities:create' %}" class="btn" id="button-color">등록하기</a>
-        </div>
+        <!-- 근로자 관리자 구분 / 24.01.08 추가수정-->
+        {% if user.role == 'admin' %}
+            <div>
+                <a href="{% url 'communities:create' %}" class="btn" id="button-color">등록하기</a>
+            </div>
+        {% endif %}
+
 
         <!-- 페이징 -->
         <nav aria-label="Page navigation example">
