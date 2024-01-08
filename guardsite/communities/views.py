@@ -36,12 +36,10 @@ def create(request):
 
 def detail(request,notice_pk):
     notice = get_object_or_404(Notice,pk=notice_pk)
-    user = get_object_or_404(get_user_model(),pk=notice.user_id)
     comments = notice.comment_set.all()
     comment_form = CommentForm()
     context = {
         'notice':notice,
-        'user':user,
         'comments':comments,
         'comment_form':comment_form,
     }
