@@ -28,7 +28,7 @@ def create(request):
             notice.user = request.user
             notice.save()
             
-            return redirect(notice)
+            return redirect("communities:index")
     else:
         form = NoticeForm()
     context = {'form':form}
@@ -74,7 +74,6 @@ def update(request,notice_pk):
 
 @require_POST
 def comments_create(request, notice_pk):
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
     if request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
