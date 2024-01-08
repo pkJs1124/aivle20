@@ -38,7 +38,6 @@ def models(image):
         return 'None'
     #dan_prediction = dan_output.squeeze(0)
 
-    
 
 # 이미지 업로드 및 결과 표시 뷰
 def upload_and_predict(request):
