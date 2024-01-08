@@ -8,7 +8,7 @@ def models():
     danger_path = "models/best_5danger.onnx"
 
     img_path = 'img/a.jpg'
-    label_v5 = ['추락','낙하','협착','화재','전도']
+    label_v5 = ['Fall','Drop','Crash','Fire','Electric']
 
     # 모델 불러오기
     bi_session = ort.InferenceSession(bi_path)
@@ -38,3 +38,5 @@ def models():
     # 5가지 위험 요소 분류 모델 추론
     dan_output = danger_session.run([danger_output_name], danger_input_data)[0]
     dan_prediction = dan_output.squeeze(0)
+
+    return label_v5[np.argmax(dan_output)]
