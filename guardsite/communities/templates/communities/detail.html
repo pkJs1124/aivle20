@@ -42,20 +42,22 @@
                 <div class="mb-6 contentarea">
                   <p>{{ notice.content }}</p>
                 </div>
+
+                {% if user.role == 'admin' %}
                 <hr style="margin-top:10px; margin-bottom:10px;">
                 <div class="flex items-center justify-between">
-                    
-                      <button class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                        <a  href="{% url 'communities:update' notice.pk %}">수정</a>
-                      </button>
+                    <button class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                      <a  href="{% url 'communities:update' notice.pk %}">수정</a>
+                    </button>
                     
                     <button class="bg-blue-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                       <form action="{% url 'communities:delete' notice.pk %}" method="POST" style="display: inline;">
                         {% csrf_token %}
-                        <input type="submit" value="삭제", onclick="return confirm('진짜로 지울래?')" >
+                            <input type="submit" value="삭제", onclick="return confirm('진짜로 지울래?')" >
                       </form>
                     </button>
                 </div>
+                {% endif %}
             </div>
             <hr style="margin-top:10px; margin-bottom:10px;">
             <div class="mb-6">
