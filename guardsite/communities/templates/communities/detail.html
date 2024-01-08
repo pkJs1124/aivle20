@@ -66,17 +66,21 @@
                         댓글
                     </label>
                     {% for comment in comments %}
-                    <div class="flex items-center justify-between">
-                       {{ comment.user }} : {{ comment.content }}
                     
-                      {% if request.user == comment.user %}
+                    <div class="flex items-center justify-between">
+                    
+                      {{ comment.user }} : {{ comment.content }}
+                          {% if request.user == comment.user %}
                         <form action="{% url 'communities:comments_delete' notice.pk comment.pk %}" method="POST" >
                           {% csrf_token %}
-                          <button><input class ="justify-between" type="submit" value="X" style="color:red ;"></button>
+                          
+                          <button><input type="submit" value="X" style="color:red ;"></button>
+                          
                         </form>
-                      </div>
+                      
                       {% endif %}
                     
+                    </div>
                   {% empty %}
                     <!--댓글 없을때 대비용. 현재는 비워둠-->
                   {% endfor %}
