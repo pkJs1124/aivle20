@@ -9,9 +9,4 @@ urlpatterns = [
    path('', views.danger_post,name ='danger_post'),
    path('index/',views.index, name ='index'),
    path('<int:danger_pk>/',views.detail, name='detail'),
-] 
-
-
-
-
-+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
