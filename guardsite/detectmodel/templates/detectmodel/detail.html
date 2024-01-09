@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+{% endblock %}
+{% block content %}
+
+
+
+        
+        <div class="card mb-4">
+          <img class="card-img-top" src="{{ danger.image.url }}" alt="Card image cap">
+          <div class="card-body">
+            <h2 class="card-title">{{ danger.area }}</h2>
+            <p class="card-text">{{ danger.danger }}</p>
+            <a href="{% url 'detectmodel:detail' danger.id %}" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+          <div class="card-footer text-muted">
+            
+           
+          </div>
+        </div>
+
+
+{% endblock %}
