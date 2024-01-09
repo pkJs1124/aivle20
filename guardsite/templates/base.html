@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" href="{% static 'css\basestyle.css'%}"> <!-- CSS 파일 링크 -->
     <link rel="stylesheet" href="{% static 'css/modal.css' %}">  <!-- modal.css 파일 링크 -->
+    <link rel="stylesheet" href="{% static 'css/upload.css' %}">  <!-- modal.css 파일 링크 -->
 
     <style>
         body {
@@ -35,7 +36,7 @@
                 <div class="headframe" id="hf">
                     <a class="navbar-brand" href="#">
                         <img src="{% static 'images\safety.png'%}" alt="안전" width="50" height="40" class="d-inline-block align-text-top">
-                        안전짱
+                        안전지킴이 오공
                     </a>
                     <div class="name" >
                         {{ user.username|slice:":1" }}**님
@@ -51,13 +52,13 @@
             <footer>     
                 <div class="frame">                    
                     <div>
-                        <a href="base.html" class="nav-link">
+                        <a href="{% url 'detectmodel:index' %}" class="nav-link">
                             <img class="nav-image" src="{% static 'images\home.png'%}" alt="홈" />
                         </a>
                     </div>
                     <div>
-                        <a href="camera-page-url.html"  class="nav-link">
-                            <img class="nav-image" src="{% static 'images\cam.png'%}" alt="카메라" />
+                    
+                            <img class="nav-image" src="{% static 'images\cam.png'%}" alt="카메라" id="DetectImage"/ >
                         </a>
                     </div>
                     <div>
@@ -78,6 +79,31 @@
             </footer>
         </div>
     </nav>
+    <div id="detectModal" class="modal">
+        <div class="modal-content-file">
+            <span class="close" onclick="closeModals()">&times;</span>
+    
+            <form method="post" enctype="multipart/form-data" action='{% url 'detectmodel:danger_post' %}'>
+                {% csrf_token %}
+                <div class='logo'>
+                    <img src="{% static 'images\safety.png'%}" alt="안전" width="50" height="40" class="d-inline-block align-text-top" style='margin-bottom:10px;' id='logo'>
+                    <label for='logo' ><h1 style='font-size:30px;'>안전지킴이 오공</h1></label>
+                </div> 
+                <div class="filebox bs3-primary">
+                    <input class="upload-name" value="파일선택">
+            
+                    <label for="id_image">업로드</label> 
+                <input type="file" id="id_image" name='image' required accept="image/*">
+                </div>
+                <div class='submitbox bs4-submits'>
+                    <input type="text" name="area" value="aa" maxlength="20" required id="id_area" class='area'>
+                    <input type="submit" class='submits' value = '제    출'></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 
       <!-- 모달 -->
     <div id="myModal" class="modal">
@@ -124,6 +150,7 @@
 	{% endblock %}
     
       <script>
+        
         document.addEventListener("DOMContentLoaded", function() {
             var currentPage = window.location.pathname;
                                                                                                                       
@@ -145,6 +172,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
     <script>
+        
+        document.getElementById('DetectImage').onclick = function() {
+            document.getElementById('detectModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 추가된 부분
+          }
+          // 모달 닫기
+        function closeModals() {
+            document.getElementById('detectModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // 추가된 부분
+          }
+          // 모달 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('detectModal')) {
+              closeModals();
+            }
+          }
+
         // 프로필 이미지 클릭 시 모달 열기
         document.getElementById('profileImage').onclick = function() {
           document.getElementById('myModal').style.display = 'block';
@@ -163,6 +207,7 @@
             closeModal();
           }
         }
+        
     </script>
 
     {% block script %}

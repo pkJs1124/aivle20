@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect,get_object_or_404,reverse
 from .forms import DangerForm
 from .models import DangerModel
 import numpy as np
@@ -47,6 +47,7 @@ def models(image):
 def danger_post(request):
     if request.method == 'POST':
         form = DangerForm(request.POST, request.FILES)
+        
         if form.is_valid():
             danger_form = form.save(commit=False)
             predictions = models(danger_form.image)
@@ -60,10 +61,11 @@ def danger_post(request):
             context = {'images': danger_form.image,
                        'danger': predictions, 
                        'area':danger_form.area}
-            return render(request, 'result_page.html', context)
+
+            return render(request, 'detectmodel/checked.html', context)
     else:
         form = DangerForm()
-    return render(request, 'upload_and_predict.html', {'form': form})
+    return render(request, 'detectmodel/index.html', {'form': form})
 
 
 def index(request):
