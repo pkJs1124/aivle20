@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 # OpenAI API 키 설정
-openai.api_key = 'YOUR_API_KEY'
+openai.api_key = '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'
 
 
 @login_required
@@ -138,22 +138,29 @@ def display_checklist(request, date):
         checklist_items.append({"name": entry.context.context, "truefalse": entry.truefalse})
     
     if request.method == 'POST':
-        form = ChecklistForm(request.POST)
+        # 체크리스트 항목의 값을 가져오기
+        for i in range(1, 13):
+            item_name = f'item_{i}'
+            context_id = i
+            item_value = request.POST.get(item_name, 'True')
 
-        if form.is_valid():
-            # date를 기반으로 ChecklistEntry 객체를 가져오거나 생성
-            checklist_entries = ChecklistEntry.objects.filter(create_at=date)
-            
-            # 가져온 모든 객체에 대해 업데이트 수행
-            for checklist_entry in checklist_entries:
-                checklist_entry.truefalse = form.cleaned_data['truefalse']
-                checklist_entry.save()
-            return redirect('showreport:checklist_board')
+            result = False if item_value == 'False' else True
+
+            # DB 데이터 수정하기
+            entry = get_object_or_404(ChecklistEntry, create_at=date, user=request.user, context=context_id)
+            entry.truefalse = result
+            entry.save()
+        
+        return redirect('showreport:checklist_board')
     else:
         # GET 요청에 대한 처리
         form = ChecklistForm()
+        print("N")
 
     # return redirect('showreport:checklist_board')
     return render(request, 'report/report.html', {'checklist_items': checklist_items, 'current_date': date})
 
     # return render(request, 'report/report.html', {'checklist_items': results})
+    
+    
+# def save_report(requeste):

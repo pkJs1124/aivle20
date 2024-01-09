@@ -85,9 +85,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         # MYSQL 정보
-        'NAME': 'aivle',
+        'NAME': 'test2',
         'USER': 'root',
-        'PASSWORD': 'admin1234',
+        'PASSWORD': 'aivle',
         'HOST': 'localhost',
         'PORT': '3306',
     }
