@@ -28,7 +28,7 @@ def create(request):
             notice.user = request.user
             notice.save()
             
-            return redirect(notice)
+            return redirect("communities:index")
     else:
         form = NoticeForm()
     context = {'form':form}
@@ -36,12 +36,10 @@ def create(request):
 
 def detail(request,notice_pk):
     notice = get_object_or_404(Notice,pk=notice_pk)
-    user = get_object_or_404(get_user_model(),pk=notice.user_id)
     comments = notice.comment_set.all()
     comment_form = CommentForm()
     context = {
         'notice':notice,
-        'user':user,
         'comments':comments,
         'comment_form':comment_form,
     }
@@ -76,7 +74,6 @@ def update(request,notice_pk):
 
 @require_POST
 def comments_create(request, notice_pk):
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
     if request.user.is_authenticated:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
