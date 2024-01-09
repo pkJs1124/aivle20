@@ -19,7 +19,12 @@
     height: 100%;
     border-color:#fff;
   } 
-  
+  .modal-content-file {
+    padding: 90px;
+    height: 100%;
+    border-color:#fff;
+    background-color: #fff;
+  } 
   /* 모달 제목 스타일 */
   .modal-content h2 {
       text-align: center; /* 가로 중앙 정렬을 위해 추가된 부분 */

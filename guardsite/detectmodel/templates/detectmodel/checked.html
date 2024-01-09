@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<style>
+.container{
+  margin-top: 5rem;
+  margin-bottom:5rem;
+  
+}
+.logo{
+    margin-top:45%;
+}
+.btn{
+    margin-left:45%;
+}
+</style>
+{% endblock %}
+{% block content %}
+
+
+
+<div class='container'>
+    <div class='logo'>
+        <img src="{% static 'images\safety.png'%}" alt="안전" width="50" height="40" class="d-inline-block align-text-top" style='margin-bottom:10px;' id='logo'>
+        <label for='logo' ><h1 style='font-size:30px;'>성공적으로 처리되었습니다!</h1></label>
+    </div> 
+    <a href="{% url 'detectmodel:index' %}" id="button-color" class="btn">뒤로가기</a>
+</div>
+
+{% endblock %}
