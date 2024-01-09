@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .forms import DangerForm
 from .models import DangerModel
 import numpy as np
 import onnxruntime as ort
 from PIL import Image
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 # Create your views here.
 def models(image):
     bi_path = "models/best_binary_weights.onnx"
@@ -64,3 +65,25 @@ def danger_post(request):
         form = DangerForm()
     return render(request, 'upload_and_predict.html', {'form': form})
 
+
+def index(request):
+    dangers = DangerModel.objects.all()
+    page = request.GET.get("page",1)
+    paginator = Paginator(dangers,6)
+    object_list = paginator.get_page(page)
+    
+    
+    context = {
+        'dangers':object_list
+    }
+    return render(request,'detectmodel/index.html',context)
+
+
+def detail(request,danger_pk):
+    danger = get_object_or_404(DangerModel,pk=danger_pk)
+    
+    context = {
+        'danger':danger,
+    }
+    return render(request,'detectmodel/detail.html',context)
+    

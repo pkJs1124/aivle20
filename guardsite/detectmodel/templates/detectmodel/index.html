@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+{% endblock %}
+{% block content %}
+
+
+{% for danger in dangers %}
+        
+        <div class="card mb-4">
+          <img class="card-img-top" src="{{ danger.image.url }}" alt="Card image cap">
+          <div class="card-body">
+            <h2 class="card-title">{{ dnager.area }}</h2>
+            <p class="card-text">{{ danger.danger }}</p>
+            <a href="{{ danger.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+          <div class="card-footer text-muted">
+            Posted on {{ p.created_at }} by
+            <a href="#">작성자명 쓸 위치(예정)</a>
+          </div>
+        </div>
+        {% endfor %}
+
+{% endblock %}
