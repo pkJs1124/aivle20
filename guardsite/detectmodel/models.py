@@ -6,4 +6,6 @@ class DangerModel(models.Model):
     danger = models.CharField(max_length=20)
     area = models.CharField(max_length=20)
     class Meta:
+        ordering = ('-pk',)
         db_table = 'danger'
+        
