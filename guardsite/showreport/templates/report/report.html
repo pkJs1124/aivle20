@@ -1,5 +1,8 @@
 <!-- checklist_app/templates/checklist_app/checklist.html -->
+{% extends "base.html" %}
+{% load static %}
 
+{% block style %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -112,9 +115,11 @@
         }
     </style>
 </head>
-
+{% endblock %}
+{% block content %}
 <body>
-
+    <br/>
+    <br/>
     <h1>
         <span class="report-title">{{ current_date }} 작업 안전</span>
     </h1>
@@ -138,13 +143,14 @@
             {% endfor %}
         </tbody>
     </table>
-    </div>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">저장</button>
-    </form>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        {{ field }} {# 각 체크박스에 대해 name을 직접 설정하지 않음 #}
+    {% endfor %}
+    <button type="submit">저장</button>
+</form>
 
     <script>
         function toggleCheck(element) {
@@ -164,3 +170,4 @@
 </body>
 
 </html>
+{% endblock %}

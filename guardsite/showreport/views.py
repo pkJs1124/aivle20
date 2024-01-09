@@ -8,11 +8,14 @@ from .models import ChecklistEntry, Checklist
 from .forms import ChecklistForm
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 # OpenAI API 키 설정
-openai.api_key = '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'
+openai.api_key = 'YOUR_API_KEY'
 
 
+@login_required
 def get_openai_results(request):
     # GPT 모델에 입력할 텍스트 생성
     # prompt 변수에는 checklist_item에 해당하는 정보가 들어갑니다.
@@ -63,7 +66,7 @@ def get_openai_results(request):
     
     print(generated_text)
     
-    save_to_database(generated_text)
+    save_to_database(request, generated_text)  # request를 전달
     
     current_date = datetime.now().date()
 
@@ -73,24 +76,22 @@ def get_openai_results(request):
     return redirect(url)
     
     
-def save_to_database(generated_text):
-    # 현재 날짜 가져오기
+@login_required
+def save_to_database(request, generated_text):
     current_date = datetime.now().date()
+    user_id = request.user.id
 
     # '\n'을 기준으로 문장을 분리
     sentences = generated_text.split('\n')
-    
-    print(sentences)
 
-    # 각 문장에서 'true' 또는 'false' 값을 추출하여 저장
     for index, sentence in enumerate(sentences, start=1):
         # 문장에서 ': '을 기준으로 분리하여 필드와 값으로 나눔
         try:
             field, value_str = sentence.split(': ', 1)
             field = field.strip()
             value_str = value_str.strip()
+        # 예외가 발생하면 (split이 제대로 이뤄지지 않으면) 건너뜁니다.
         except ValueError:
-            # 예외가 발생하면 (split이 제대로 이뤄지지 않으면) 건너뜁니다.
             continue
 
         # 'true' 또는 'false' 값을 추출하여 Boolean으로 변환
@@ -100,16 +101,17 @@ def save_to_database(generated_text):
         entry = ChecklistEntry(
             create_at=current_date,
             context_id=index,
-            truefalse=value
+            truefalse=value,
+            user_id=user_id
         )
         entry.save()
 
-    print("Result saved to database.")
+    return HttpResponse("Result saved to database.")
     
     
 def checklist_board(request):
-    items_per_page = 2
-    page = request.GET.get('page')
+    items_per_page = 10
+    page = request.GET.get("page",1)
 
     # 중복 제거 및 정렬된 날짜 가져오기
     dates = ChecklistEntry.objects.values('create_at').distinct().order_by('-create_at')
@@ -117,57 +119,41 @@ def checklist_board(request):
     # Paginator를 사용하여 날짜를 페이지별로 나누기
     paginator = Paginator(dates, items_per_page)
     
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page=1
-        page_obj = paginator.page(page)
-    except EmptyPage:
-        page = paginator.num_pages
-        page_obj = paginator.page(page)
+    object_list = paginator.get_page(page)
+    
+    context = {
+        'checklist_entries': dates,
+        'page':object_list
+    }
 
-    return render(request, 'report/reportlist.html', {'checklist_entries': dates, 'page': page_obj, 'paginator':paginator})
+    return render(request, 'report/reportlist.html', context)
 
 
 def display_checklist(request, date):
     
     checklist_items = []
-    entries = ChecklistEntry.objects.filter(create_at=date)
+    entries = ChecklistEntry.objects.filter(create_at=date, user_id=request.user.id)
     
     for entry in entries:
         checklist_items.append({"name": entry.context.context, "truefalse": entry.truefalse})
-
+    
     if request.method == 'POST':
-        # POST 요청에서 넘어온 데이터를 기반으로 폼 생성
         form = ChecklistForm(request.POST)
-        
+
         if form.is_valid():
-            # HTML 템플릿에서 전달받은 현재 날짜 사용
-            current_date = date
+            # date를 기반으로 ChecklistEntry 객체를 가져오거나 생성
+            checklist_entries = ChecklistEntry.objects.filter(create_at=date)
             
-            # 해당 날짜에 대한 기존 데이터 가져오기
-            checklist_entry = get_object_or_404(ChecklistEntry, create_at=current_date)
-            
-            # 기존 데이터가 있으면 수정, 없으면 새로 생성
-            if checklist_entry:
-                form = ChecklistForm(request.POST, instance=checklist_entry)
-            else:
-                form = ChecklistForm(request.POST)
-
-            # 저장
-            checklist_entry = form.save(commit=False)
-            
-            # 사용자가 체크를 추가하면 true, 체크를 제거하면 false로 설정
-            checklist_entry.truefalse = form.cleaned_data['truefalse']
-            
-            # 기존 데이터가 있으면 수정, 없으면 새로 생성
-            if checklist_entry:
+            # 가져온 모든 객체에 대해 업데이트 수행
+            for checklist_entry in checklist_entries:
+                checklist_entry.truefalse = form.cleaned_data['truefalse']
                 checklist_entry.save()
-
+            return redirect('showreport:checklist_board')
     else:
-        # GET 요청에서는 빈 폼을 생성
+        # GET 요청에 대한 처리
         form = ChecklistForm()
 
+    # return redirect('showreport:checklist_board')
     return render(request, 'report/report.html', {'checklist_items': checklist_items, 'current_date': date})
 
     # return render(request, 'report/report.html', {'checklist_items': results})
