@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<style>
+.container{
+  margin-top: 5rem;
+  margin-bottom:5rem;
+  
+}
+#card-body{
+  margin: 0 auto;
+}
+
+.card-img-top {
+  height:15rem;
+  
+  object-fit:cover;
+}
+
+#button-color{
+    background-color:#B3D8FF;
+}
+
+</style>
+{% endblock %}
+{% block content %}
+
+
+{% for danger in dangers %}
+<div class ="container">  
+        <div id="card-body " class="card mt-3" >
+        
+          <img class="card-img-top " src="{{ danger.image.url }}" alt="Card image cap">
+        
+          <div class="card-body">
+            <h2 class="card-title"> 구역 : {{ danger.area }}</h2>
+            <p class="card-text"> 5대분류 : {{ danger.danger }}</p>
+            <a href="{% url 'detectmodel:detail' danger.id %}" id ="button-color" class="btn">상세보기</a>
+          </div>
+
+        </div>
+<div>
+        {% endfor %}
+
+{% endblock %}

@@ -1,9 +1,11 @@
-from django.shortcuts import render
-from .forms import ImageUploadForm
-from .models import UploadedImage
+from django.shortcuts import render, redirect,get_object_or_404
+from .forms import DangerForm
+from .models import DangerModel
 import numpy as np
 import onnxruntime as ort
 from PIL import Image
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 # Create your views here.
 def models(image):
     bi_path = "models/best_binary_weights.onnx"
@@ -40,14 +42,48 @@ def models(image):
 
 
 # 이미지 업로드 및 결과 표시 뷰
-def upload_and_predict(request):
+    
+@login_required
+def danger_post(request):
     if request.method == 'POST':
-        form = ImageUploadForm(request.POST, request.FILES)
+        form = DangerForm(request.POST, request.FILES)
         if form.is_valid():
-            uploaded_image = form.save()
-            predictions = models(uploaded_image.image)
-            context = {'uploaded_image': uploaded_image.image, 'predictions': predictions}
+            danger_form = form.save(commit=False)
+            predictions = models(danger_form.image)
+            danger_form = DangerModel(
+                image=danger_form.image,
+                danger=predictions,
+                area=danger_form.area
+            )
+            danger_form.save()
+
+            context = {'images': danger_form.image,
+                       'danger': predictions, 
+                       'area':danger_form.area}
             return render(request, 'result_page.html', context)
     else:
-        form = ImageUploadForm()
+        form = DangerForm()
     return render(request, 'upload_and_predict.html', {'form': form})
+
+
+def index(request):
+    dangers = DangerModel.objects.all()
+    page = request.GET.get("page",1)
+    paginator = Paginator(dangers,6)
+    object_list = paginator.get_page(page)
+    
+    
+    context = {
+        'dangers':object_list
+    }
+    return render(request,'detectmodel/index.html',context)
+
+
+def detail(request,danger_pk):
+    danger = get_object_or_404(DangerModel,pk=danger_pk)
+    
+    context = {
+        'danger':danger,
+    }
+    return render(request,'detectmodel/detail.html',context)
+    
