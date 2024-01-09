@@ -1,8 +1,9 @@
 # myapp/forms.py
 from django import forms
-from .models import UploadedImage
+from .models import DangerModel
 
-class ImageUploadForm(forms.ModelForm):
+class DangerForm(forms.ModelForm):
     class Meta:
-        model = UploadedImage
-        fields = ['image']
+        model = DangerModel
+        fields = ['image',
+                  'area']
