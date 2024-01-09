@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 # OpenAI API 키 설정
-openai.api_key = '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'
+openai.api_key = 'YOUR_API_KEY'
 
 
 @login_required
