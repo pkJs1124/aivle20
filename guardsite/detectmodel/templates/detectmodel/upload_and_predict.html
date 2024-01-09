@@ -1,0 +1,31 @@
+<!-- myapp/templates/upload_and_predict.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image and Predict</title>
+</head>
+<body>
+    <h2>Upload Image and Predict</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Upload and Predict</button>
+    </form>
+
+    {% if uploaded_image %}
+        <h3>Uploaded Image:</h3>
+        <img src="{{ uploaded_image.image.url }}" alt="Uploaded Image">
+
+        {% if predictions %}
+        <h3>Predictions:</h3>
+            <ul>
+                {% for prediction in predictions.0 %}
+                    <li>{{ prediction }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
